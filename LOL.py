@@ -36,6 +36,7 @@ plt.figure("Nombre de champions avec chaque tag")
 sns.histplot(tags, shrink=0.8, color='cornflowerblue')
 plt.xlabel('Tag')
 plt.ylabel('Nombre de champions')
+plt.title('Nombre de champions pour chaque tag')
 
 # Montrons la corrélation entre les tags et les rôles
 # Les rôles sont "bluetop", "bluejungle", "bluemid", "blueadc", "bluesupport", "redtop", "redjungle", "redmid", "redadc", "redsupport" et sont des colonnes dans les données de match
