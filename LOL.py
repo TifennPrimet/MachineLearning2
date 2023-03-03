@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 # Lire les données
 champion = pd.read_csv('champions.csv', index_col=0)
@@ -99,4 +100,16 @@ tag_stat = tag_stat.transpose()
 tag_stat.plot(kind='bar', title='Ecart type relatif des statistiques pour chaque tag') # Plus utile
 plt.xlabel('Tag')
 plt.ylabel('Ecart type relatif')
+plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+# Faisons une heatmap pour voir quels tags sont le plus souvent ensemble
+tag_tag = pd.DataFrame(index=unique_tags, columns=unique_tags, dtype=int)
+for tag1 in unique_tags:
+    for tag2 in unique_tags:
+        tag_tag.loc[tag1, tag2] = sum(champion['tags'].apply(lambda x: tag1 in x and tag2 in x if tag1 != tag2 else tag1 in x and len(x) == 1))
+# Tracer le résultat
+plt.figure("Heatmap des tags")
+sns.heatmap(tag_tag, annot=True, fmt='g', cmap='Blues')
+plt.title('Heatmap des tags')
+plt.xlabel('Tag 1')
+plt.ylabel('Tag 2')
 plt.show()
