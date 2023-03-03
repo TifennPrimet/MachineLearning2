@@ -195,22 +195,22 @@ for champ in champion['id']:
 print(champ_match.sort_values(by='taux defaite', ascending=False).head(10))
 
 # On affiche tout ça
-plt.figure("Champions les plus populaires")
-champ_match.sort_values(by='popularite', ascending=False)["popularite"].head(10).plot(kind='bar')
+# plt.figure("Champions les plus populaires")
+champ_match.sort_values(by='popularite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(kind='bar')
 plt.title('Champions les plus populaires')
 plt.xlabel('Champion')
 plt.ylabel('Nombre d\'apparition')
 plt.tight_layout()
 
-plt.figure("Champions les moins populaires")
-champ_match.sort_values(by='taux victoire', ascending=False)["taux victoire"].head(10).plot(kind='bar')
+# plt.figure("Champions les moins populaires")
+champ_match.sort_values(by='taux victoire', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(kind='bar')
 plt.title('Champions les plus efficaces')
 plt.xlabel('Champion')
 plt.ylabel('Taux de victoire')
 plt.tight_layout()
 
-plt.figure("Champions les moins efficaces")
-champ_match.sort_values(by='taux defaite', ascending=False)["taux defaite"].head(10).plot(kind='bar')
+# plt.figure("Champions les moins efficaces")
+champ_match.sort_values(by='taux defaite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(kind='bar')
 plt.title('Champions les moins efficaces')
 plt.xlabel('Champion')
 plt.ylabel('Taux de défaite')
