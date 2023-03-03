@@ -48,6 +48,7 @@ tag_role = pd.DataFrame(index=unique_tags, columns=roles)
 for role in roles:
     for tag in unique_tags:
         tag_role.loc[tag, role] = sum(matches[role].isin(champion[champion['tags'].apply(lambda x: tag in x)].index))
+
 # Regroupons les rôles bleus et rouges
 tag_role['top'] = tag_role['bluetop'] + tag_role['redtop']
 tag_role['jungle'] = tag_role['bluejungle'] + tag_role['redjungle']
@@ -57,11 +58,13 @@ tag_role['support'] = tag_role['bluesupport'] + tag_role['redsupport']
 tag_role = tag_role.drop(['bluetop', 'bluejungle', 'bluemid', 'blueadc', 'bluesupport', 'redtop', 'redjungle', 'redmid', 'redadc', 'redsupport'], axis=1)
 # Renverser le dataframe pour que les rôles soient les lignes et les tags les colonnes
 tag_role = tag_role.transpose()
+
 # Tracer le résultat
 tag_role.plot(kind='bar', stacked=True, title='Nombre de champions avec chaque tag pour chaque rôle')
 plt.xlabel('Rôle')
 plt.ylabel('Nombre de champions')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
 # Montrons maintenant la corrélation entre les tags et les statistiques
 # Les stats sont attack, defense, magic, difficulty, hp, hpperlevel, mp, mpperlevel, movespeed, armor, armorperlevel, spellblock, spellblockperlevel, attackrange, hpregen, hpregenperlevel, mpregen, mpregenperlevel, crit, critperlevel, attackdamage, attackdamageperlevel, attackspeedperlevel, attackspeed et sont des colonnes numériques dans les données des champions
 # On a déjà la liste des tags uniques
@@ -72,11 +75,13 @@ for tag in unique_tags:
     tag_stat.loc[tag] = champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['mean']
 # Renverser le dataframe pour que les statistiques soient les lignes et les tags les colonnes
 tag_stat = tag_stat.transpose()
+
 # Tracer le résultat
 tag_stat.plot(kind='bar', title='Moyenne des statistiques pour chaque tag') # Pas très utile, les moyennes dépendent de la stats mais pas vraiment du tag
 plt.xlabel('Tag')
 plt.ylabel('Moyenne')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
 # Créons un dataframe avec l'écart type des statistiques pour chaque tag
 tag_stat = pd.DataFrame(index=unique_tags, columns=champion.columns[2:]) # Contient aussi la colonne tags, on va devoir l'enlever
 tag_stat = tag_stat.drop('tags', axis=1)
@@ -84,11 +89,13 @@ for tag in unique_tags:
     tag_stat.loc[tag] = champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['std']
 # Renverser le dataframe pour que les statistiques soient les lignes et les tags les colonnes
 tag_stat = tag_stat.transpose()
+
 # Tracer le résultat
 tag_stat.plot(kind='bar', title='Ecart type des statistiques pour chaque tag') # Pas très utile, les écart types dépendent trop de la moyenne
 plt.xlabel('Tag')
 plt.ylabel('Ecart type')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
 # Créons un dataframe avec l'écart type relatif des statistiques pour chaque tag
 tag_stat = pd.DataFrame(index=unique_tags, columns=champion.columns[2:]) # Contient aussi la colonne tags, on va devoir l'enlever
 tag_stat = tag_stat.drop('tags', axis=1)
@@ -96,20 +103,24 @@ for tag in unique_tags:
     tag_stat.loc[tag] = champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['std'] / champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['mean']
 # Renverser le dataframe pour que les statistiques soient les lignes et les tags les colonnes
 tag_stat = tag_stat.transpose()
+
 # Tracer le résultat
 tag_stat.plot(kind='bar', title='Ecart type relatif des statistiques pour chaque tag') # Plus utile
 plt.xlabel('Tag')
 plt.ylabel('Ecart type relatif')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
 # Faisons une heatmap pour voir quels tags sont le plus souvent ensemble
 tag_tag = pd.DataFrame(index=unique_tags, columns=unique_tags, dtype=int)
 for tag1 in unique_tags:
     for tag2 in unique_tags:
         tag_tag.loc[tag1, tag2] = sum(champion['tags'].apply(lambda x: tag1 in x and tag2 in x if tag1 != tag2 else tag1 in x and len(x) == 1))
+
 # Tracer le résultat
 plt.figure("Heatmap des tags")
 sns.heatmap(tag_tag, annot=True, fmt='g', cmap='Blues')
 plt.title('Heatmap des tags')
 plt.xlabel('Tag 1')
 plt.ylabel('Tag 2')
+
 plt.show()
