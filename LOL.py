@@ -33,7 +33,7 @@ for tag in champion['tags']:
     tags.extend(tag)
 # Montrons maintenant le nombre de champions avec chaque tag
 plt.figure("Nombre de champions avec chaque tag")
-plt.hist(tags)
+sns.histplot(tags, shrink=0.8, color='cornflowerblue')
 plt.xlabel('Tag')
 plt.ylabel('Nombre de champions')
 
