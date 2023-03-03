@@ -4,18 +4,18 @@ import numpy as np
 import seaborn as sns
 
 affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots et les print
-    'champion': True, # Nécessaire pour les quatre suivants
+    'champion': False, # Nécessaire pour les quatre suivants
     'champion_plot': True,
     'champion_attaque_magie': True,
     'champion_moyenne_ecart_type': True,
     'champion_describe': True,
     'tags': True,
     'tags_roles': True,
-    'tags_stats': True, # Nécessaire pour les trois suivants
+    'tags_stats': False, # Nécessaire pour les trois suivants
     'tags_stats_moy': True,
     'tags_stats_std': True,
     'tags_stats_rel_std': True,
-    'tags_heatmaps': True, # Nécessaire pour les trois suivants
+    'tags_heatmaps': False, # Nécessaire pour les trois suivants
     'tags_heatmap_champ': True,
     'tags_heatmap_match': True,
     'tags_heatmap_match_rel': True,
@@ -26,6 +26,12 @@ affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots e
     'champions_match_popularite': True,
     'champions_match_taux_victoire': True,
     'champions_match_taux_defaite': True,
+    'champions_match_par_roles': True, # Affichage des statistiques champion-match par rôle (popularité, victoires, défaites)
+    'champions_match_par_roles_top': True, # rôle = top
+    'champions_match_par_roles_jungle': True, # rôle = jungle
+    'champions_match_par_roles_mid': True, # rôle = mid
+    'champions_match_par_roles_adc': True, # rôle = adc
+    'champions_match_par_roles_support': True, # rôle = support
 }
 
 if True: # Lecture des données
@@ -280,6 +286,70 @@ if affichages['champions_match']: # Affichage des statistiques champion-match (p
         plt.xlabel('Champion')
         plt.ylabel('Taux de défaite')
         plt.tight_layout()
+
+def plot_popularity(nom_roles):
+    """
+    Affiche les statistiques de popularité des champions pour un rôle donné
+    Le rôle doit être écrit sous la forme du suffixe ('top', 'jungle', 'mid', 'adc' ou 'support')
+    """
+    # On va maintenant créer un dataframe avec les champions et leur nombre de victoire
+    for champ in champion['id']:
+        champ_match.loc[champ, 'victoires'] = sum(blue_wins['blue' + nom_roles] == champ) + sum(red_wins['red' + nom_roles] == champ)
+
+    # On va maintenant créer un dataframe avec les champions et leur nombre de défaite
+    for champ in champion['id']:
+        champ_match.loc[champ, 'defaites'] = sum(red_wins['blue' + nom_roles] == champ) + sum(blue_wins['red' + nom_roles] == champ) 
+
+    # On va maintenant créer un dataframe avec les champions et leur nombre de victoire par rapport à leur nombre d'apparition
+    for champ in champion['id']:
+        if not champ in champ_unused.index:
+            champ_match.loc[champ, 'taux victoire'] = champ_match.loc[champ, 'victoires'] / champ_match.loc[champ, 'popularite']
+
+    # On va maintenant créer un dataframe avec les champions et leur nombre de défaite par rapport à leur nombre d'apparition
+    for champ in champion['id']:
+        if not champ in champ_unused.index:
+            champ_match.loc[champ, 'taux defaite'] = champ_match.loc[champ, 'defaites'] / champ_match.loc[champ, 'popularite']
+
+    
+    fig, (ax1, ax2, ax3) = plt.subplots(3)
+    # On affiche tout ça
+    champ_match.sort_values(by='popularite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(ax = ax1, kind='bar')
+    ax1.set_title('Champions les plus populaires')
+    ax1.set_xlabel('Champion')
+    ax1.set_ylabel('Nombre d\'apparition')
+    ax1.tick_params(axis='x', labelrotation=0)
+    # ax1.set_xticks(rotation=0)
+    ax1.autoscale(tight=True)
+
+    champ_match.sort_values(by='taux victoire', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(ax = ax2, kind='bar')
+    ax2.set_title('Champions les plus efficaces')
+    ax2.set_xlabel('Champion')
+    ax2.set_ylabel('Taux de victoire')
+    ax2.tick_params(axis='x', labelrotation=0)
+    ax2.autoscale(tight=True)
+
+    champ_match.sort_values(by='taux defaite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(ax = ax3, kind='bar')
+    ax3.set_title('Champions les moins efficaces')
+    ax3.set_xlabel('Champion')
+    ax3.set_ylabel('Taux de défaite')
+    ax3.tick_params(axis='x', labelrotation=0)
+    ax3.autoscale(tight=True)
+
+    fig.suptitle('Popularité des champions dans le rôle de \'' + nom_roles + '\'')
+    fig.tight_layout()
+
+if affichages['champions_match_par_roles']: # Affichage des statistiques champion-match par rôle (popularité, victoires, défaites)
+    if affichages['champions_match_par_roles_top']: # Dans le rôle de top
+        plot_popularity('top')
+    if affichages['champions_match_par_roles_jungle']: # Dans le rôle de jungle
+        plot_popularity('jungle')
+    if affichages['champions_match_par_roles_mid']: # Dans le rôle de mid
+        plot_popularity('mid')
+    if affichages['champions_match_par_roles_adc']: # Dans le rôle de adc
+        plot_popularity('adc')
+    if affichages['champions_match_par_roles_support']: # Dans le rôle de support
+        plot_popularity('support')
+
 
 if True: # plt.show()
     plt.show()
