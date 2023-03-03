@@ -21,7 +21,7 @@ plt.ylabel('magie')
 # Tracer la moyenne et l'écart type des colonnes numériques (il y en a beaucoup, donc nous devons mettre la légende de l'axe des x de côté)
 champion.plot(kind='box', title='Moyenne et écart type des colonnes numériques') # Pas très utile
 plt.xticks(rotation=90)
-
+plt.tight_layout()
 # Afficher la moyenne et l'écart type des colonnes numériques
 print(champion.describe())
 
@@ -37,7 +37,7 @@ sns.histplot(tags, shrink=0.8, color='cornflowerblue')
 plt.xlabel('Tag')
 plt.ylabel('Nombre de champions')
 plt.title('Nombre de champions pour chaque tag')
-
+plt.tight_layout()
 # Montrons la corrélation entre les tags et les rôles
 # Les rôles sont "bluetop", "bluejungle", "bluemid", "blueadc", "bluesupport", "redtop", "redjungle", "redmid", "redadc", "redsupport" et sont des colonnes dans les données de match
 # Tout d'abord, obtenons une liste de tous les rôles
@@ -67,6 +67,7 @@ tag_role.plot(kind='bar', stacked=True, title='Nombre de champions avec chaque t
 plt.xlabel('Rôle')
 plt.ylabel('Nombre de champions')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.tight_layout()
 
 # Montrons maintenant la corrélation entre les tags et les statistiques
 # Les stats sont attack, defense, magic, difficulty, hp, hpperlevel, mp, mpperlevel, movespeed, armor, armorperlevel, spellblock, spellblockperlevel, attackrange, hpregen, hpregenperlevel, mpregen, mpregenperlevel, crit, critperlevel, attackdamage, attackdamageperlevel, attackspeedperlevel, attackspeed et sont des colonnes numériques dans les données des champions
@@ -84,6 +85,7 @@ tag_stat.plot(kind='bar', title='Moyenne des statistiques pour chaque tag') # Pa
 plt.xlabel('Tag')
 plt.ylabel('Moyenne')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.tight_layout()
 
 # Créons un dataframe avec l'écart type des statistiques pour chaque tag
 tag_stat = pd.DataFrame(index=unique_tags, columns=champion.columns[2:]) # Contient aussi la colonne tags, on va devoir l'enlever
@@ -98,6 +100,7 @@ tag_stat.plot(kind='bar', title='Ecart type des statistiques pour chaque tag') #
 plt.xlabel('Tag')
 plt.ylabel('Ecart type')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.tight_layout()
 
 # Créons un dataframe avec l'écart type relatif des statistiques pour chaque tag
 tag_stat = pd.DataFrame(index=unique_tags, columns=champion.columns[2:]) # Contient aussi la colonne tags, on va devoir l'enlever
@@ -112,6 +115,7 @@ tag_stat.plot(kind='bar', title='Ecart type relatif des statistiques pour chaque
 plt.xlabel('Tag')
 plt.ylabel('Ecart type relatif')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.tight_layout()
 
 # Faisons une heatmap pour voir quels tags sont le plus souvent ensemble
 tag_tag = pd.DataFrame(index=unique_tags, columns=unique_tags, dtype=int)
@@ -125,6 +129,7 @@ sns.heatmap(tag_tag, annot=True, fmt='g', cmap='Blues')
 plt.title('Heatmap des tags')
 plt.xlabel('Tag 1')
 plt.ylabel('Tag 2')
+plt.tight_layout()
 
 # Faisons une heatmap pour voir quels tags sont le plus souvent ensemble dans les matchs
 tag_tag_m = pd.DataFrame(index=unique_tags, columns=unique_tags, dtype=int, data=0)
@@ -139,6 +144,7 @@ sns.heatmap(tag_tag_m, annot=True, fmt='g', cmap='Blues')
 plt.title('Heatmap des tags dans les matchs')
 plt.xlabel('Tag 1')
 plt.ylabel('Tag 2')
+plt.tight_layout()
 
 # Faisons une heatmap pour voir quelles combinaisons de tags sont les plus populaires
 # On va diviser tag_tag_m par tag_tag
@@ -149,6 +155,7 @@ sns.heatmap(tag_tag_, annot=True, fmt='.2f', cmap='Blues')
 plt.title('Heatmap des tags dans les matchs normalisée')
 plt.xlabel('Tag 1')
 plt.ylabel('Tag 2')
+plt.tight_layout()
 
 # On va maintenant s'intéresser aux matchs : quels champions sont les plus populaires ? Quels sont les champions les plus efficaces ? Quels sont les champions les plus efficaces par rapport à leur popularité ?
 # On va commencer par les champions les plus populaires
@@ -196,17 +203,19 @@ champ_pop.sort_values(by='popularity', ascending=False).head(10).plot(kind='bar'
 plt.title('Champions les plus populaires')
 plt.xlabel('Champion')
 plt.ylabel('Nombre d\'apparition')
+plt.tight_layout()
 
 champ_winrate.sort_values(by='winrate', ascending=False).head(10).plot(kind='bar')
 plt.title('Champions les plus efficaces')
 plt.xlabel('Champion')
 plt.ylabel('Winrate')
+plt.tight_layout()
 
 champ_loserate.sort_values(by='loserate', ascending=False).head(10).plot(kind='bar')
 plt.title('Champions les moins efficaces')
 plt.xlabel('Champion')
 plt.ylabel('Loserate')
-
+plt.tight_layout()
 
 
 plt.show()
