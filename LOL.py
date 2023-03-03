@@ -149,4 +149,63 @@ plt.title('Heatmap des tags dans les matchs normalisée')
 plt.xlabel('Tag 1')
 plt.ylabel('Tag 2')
 
+# On va maintenant s'intéresser aux matchs : quels champions sont les plus populaires ? Quels sont les champions les plus efficaces ? Quels sont les champions les plus efficaces par rapport à leur popularité ?
+# On va commencer par les champions les plus populaires
+
+# On va créer un dataframe avec les champions et leur nombre d'apparition dans les matchs
+champ_pop = pd.DataFrame(index=champion['id'], columns=['popularity'])
+for champ in champion['id']:
+    champ_pop.loc[champ] = sum(matches['bluetop'] == champ) + sum(matches['bluejungle'] == champ) + sum(matches['bluemid'] == champ) + sum(matches['blueadc'] == champ) + sum(matches['bluesupport'] == champ) + sum(matches['redtop'] == champ) + sum(matches['redjungle'] == champ) + sum(matches['redmid'] == champ) + sum(matches['redadc'] == champ) + sum(matches['redsupport'] == champ)
+
+# On affiche les champions qui ne sont jamais apparus dans les matchs
+champ_unused = champ_pop[champ_pop['popularity'] == 0]
+print(champ_unused)
+# Et on les enlève du dataframe
+champ_pop = champ_pop[champ_pop['popularity'] != 0]
+
+blue_wins = matches[matches['result'] == 1]
+red_wins = matches[matches['result'] == 0]
+
+# On va maintenant créer un dataframe avec les champions et leur nombre de victoire
+champ_win = pd.DataFrame(index=champ_pop.index, columns=['win'])
+for champ in champion['id']:
+    champ_win.loc[champ] = sum(blue_wins['bluetop'] == champ) + sum(blue_wins['bluejungle'] == champ) + sum(blue_wins['bluemid'] == champ) + sum(blue_wins['blueadc'] == champ) + sum(blue_wins['bluesupport'] == champ) + sum(red_wins['redtop'] == champ) + sum(red_wins['redjungle'] == champ) + sum(red_wins['redmid'] == champ) + sum(red_wins['redadc'] == champ) + sum(red_wins['redsupport'] == champ)
+
+# On va maintenant créer un dataframe avec les champions et leur nombre de défaite
+champ_lose = pd.DataFrame(index=champ_pop.index, columns=['lose'])
+for champ in champion['id']:
+    champ_lose.loc[champ] = sum(red_wins['bluetop'] == champ) + sum(red_wins['bluejungle'] == champ) + sum(red_wins['bluemid'] == champ) + sum(red_wins['blueadc'] == champ) + sum(red_wins['bluesupport'] == champ) + sum(blue_wins['redtop'] == champ) + sum(blue_wins['redjungle'] == champ) + sum(blue_wins['redmid'] == champ) + sum(blue_wins['redadc'] == champ) + sum(blue_wins['redsupport'] == champ)
+
+# On va maintenant créer un dataframe avec les champions et leur nombre de victoire par rapport à leur nombre d'apparition
+champ_winrate = pd.DataFrame(index=champ_pop.index, columns=['winrate'])
+for champ in champion['id']:
+    if not champ in champ_unused.index:
+        champ_winrate.loc[champ, 'winrate'] = champ_win.loc[champ, 'win'] / champ_pop.loc[champ, 'popularity']
+print(champ_winrate.sort_values(by='winrate', ascending=False).head(10))
+
+# On va maintenant créer un dataframe avec les champions et leur nombre de défaite par rapport à leur nombre d'apparition
+champ_loserate = pd.DataFrame(index=champ_pop.index, columns=['loserate'])
+for champ in champion['id']:
+    if not champ in champ_unused.index:
+        champ_loserate.loc[champ, 'loserate'] = champ_lose.loc[champ, 'lose'] / champ_pop.loc[champ, 'popularity']
+print(champ_loserate.sort_values(by='loserate', ascending=False).head(10))
+
+# On affiche tout ça
+champ_pop.sort_values(by='popularity', ascending=False).head(10).plot(kind='bar')
+plt.title('Champions les plus populaires')
+plt.xlabel('Champion')
+plt.ylabel('Nombre d\'apparition')
+
+champ_winrate.sort_values(by='winrate', ascending=False).head(10).plot(kind='bar')
+plt.title('Champions les plus efficaces')
+plt.xlabel('Champion')
+plt.ylabel('Winrate')
+
+champ_loserate.sort_values(by='loserate', ascending=False).head(10).plot(kind='bar')
+plt.title('Champions les moins efficaces')
+plt.xlabel('Champion')
+plt.ylabel('Loserate')
+
+
+
 plt.show()
