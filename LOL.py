@@ -154,7 +154,7 @@ plt.ylabel('Tag 2')
 # On va commencer par les champions les plus populaires
 
 # On va créer un dataframe avec les champions et leur nombre d'apparition dans les matchs
-champ_match = pd.DataFrame(index=champion['id'], columns=['popularity', 'win', 'lose', 'taux victoire', 'taux defaites'])
+champ_match = pd.DataFrame(index=champion['id'], columns=['popularity', 'win', 'lose', 'taux victoire', 'taux defaite'])
 for champ in champion['id']:
     champ_match.loc[champ] = sum(matches['bluetop'] == champ) + sum(matches['bluejungle'] == champ) + sum(matches['bluemid'] == champ) + sum(matches['blueadc'] == champ) + sum(matches['bluesupport'] == champ) + sum(matches['redtop'] == champ) + sum(matches['redjungle'] == champ) + sum(matches['redmid'] == champ) + sum(matches['redadc'] == champ) + sum(matches['redsupport'] == champ)
 
@@ -184,8 +184,8 @@ print(champ_match.sort_values(by='taux victoire', ascending=False).head(10))
 # On va maintenant créer un dataframe avec les champions et leur nombre de défaite par rapport à leur nombre d'apparition
 for champ in champion['id']:
     if not champ in champ_unused.index:
-        champ_match.loc[champ, 'taux defaites'] = champ_match.loc[champ, 'lose'] / champ_match.loc[champ, 'popularity']
-print(champ_match.sort_values(by='taux defaites', ascending=False).head(10))
+        champ_match.loc[champ, 'taux defaite'] = champ_match.loc[champ, 'lose'] / champ_match.loc[champ, 'popularity']
+print(champ_match.sort_values(by='taux defaite', ascending=False).head(10))
 
 # On affiche tout ça
 champ_match.sort_values(by='popularity', ascending=False).head(10).plot(kind='bar')
@@ -198,7 +198,7 @@ plt.title('Champions les plus efficaces')
 plt.xlabel('Champion')
 plt.ylabel('Taux de victoire')
 
-champ_match.sort_values(by='taux defaites', ascending=False).head(10).plot(kind='bar')
+champ_match.sort_values(by='taux defaite', ascending=False).head(10).plot(kind='bar')
 plt.title('Champions les moins efficaces')
 plt.xlabel('Champion')
 plt.ylabel('Taux de défaite')
