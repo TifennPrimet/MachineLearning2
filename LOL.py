@@ -19,7 +19,7 @@ plt.ylabel('magie')
 
 # Tracer la moyenne et l'écart type des colonnes numériques (il y en a beaucoup, donc nous devons mettre la légende de l'axe des x de côté)
 champion.plot(kind='box', title='Moyenne et écart type des colonnes numériques') # Pas très utile
-plt.xticks(rotation=45)
+plt.xticks(rotation=90)
 
 # Afficher la moyenne et l'écart type des colonnes numériques
 print(champion.describe())
