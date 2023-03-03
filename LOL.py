@@ -54,7 +54,7 @@ tag_role['mid'] = tag_role['bluemid'] + tag_role['redmid']
 tag_role['adc'] = tag_role['blueadc'] + tag_role['redadc']
 tag_role['support'] = tag_role['bluesupport'] + tag_role['redsupport']
 tag_role = tag_role.drop(['bluetop', 'bluejungle', 'bluemid', 'blueadc', 'bluesupport', 'redtop', 'redjungle', 'redmid', 'redadc', 'redsupport'], axis=1)
-# Renversons le dataframe pour que les rôles soient les lignes et les tags les colonnes
+# Renverser le dataframe pour que les rôles soient les lignes et les tags les colonnes
 tag_role = tag_role.transpose()
 # Tracer le résultat
 tag_role.plot(kind='bar', stacked=True, title='Nombre de champions avec chaque tag pour chaque rôle')
@@ -62,5 +62,31 @@ plt.xlabel('Rôle')
 plt.ylabel('Nombre de champions')
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 # Montrons maintenant la corrélation entre les tags et les statistiques
-# Les stats sont attack, defense, magic, difficulty, hp, hpperlevel, mp, mpperlevel, movespeed, armor, armorperlevel, spellblock, spellblockperlevel, attackrange, hpregen, hpregenperlevel, mpregen, mpregenperlevel, crit, critperlevel, attackdamage, attackdamageperlevel, attackspeedperlevel, attackspeed
+# Les stats sont attack, defense, magic, difficulty, hp, hpperlevel, mp, mpperlevel, movespeed, armor, armorperlevel, spellblock, spellblockperlevel, attackrange, hpregen, hpregenperlevel, mpregen, mpregenperlevel, crit, critperlevel, attackdamage, attackdamageperlevel, attackspeedperlevel, attackspeed et sont des colonnes numériques dans les données des champions
+# On a déjà la liste des tags uniques
+# Créons un dataframe avec la moyenne et l'écart type des statistiques pour chaque tag
+tag_stat = pd.DataFrame(index=unique_tags, columns=champion.columns[2:]) # Contient aussi la colonne tags, on va devoir l'enlever
+tag_stat = tag_stat.drop('tags', axis=1)
+# Renverser le dataframe pour que les statistiques soient les lignes et les tags les colonnes
+tag_stat = tag_stat.transpose()
+for tag in unique_tags:
+    tag_stat.loc[tag] = champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['mean']
+# Tracer le résultat
+tag_stat.plot(kind='bar', title='Moyenne des statistiques pour chaque tag') # Pas très utile, les moyennes dépendent de la stats mais pas vraiment du tag
+plt.xlabel('Tag')
+plt.ylabel('Moyenne')
+plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+for tag in unique_tags:
+    tag_stat.loc[tag] = champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['std']
+# Tracer le résultat
+tag_stat.plot(kind='bar', title='Ecart type des statistiques pour chaque tag') # Pas très utile, les écart types dépendent trop de la moyenne
+plt.xlabel('Tag')
+plt.ylabel('Ecart type')
+plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+for tag in unique_tags:
+    tag_stat.loc[tag] = champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['std'] / champion[champion['tags'].apply(lambda x: tag in x)].describe().loc['mean']
+# Tracer le résultat
+tag_stat.plot(kind='bar', title='Ecart type relatif des statistiques pour chaque tag') # Pas très utile, les écart types relatifs dépendent trop de la moyenne
+plt.xlabel('Tag')
+plt.ylabel('Ecart type relatif')
 plt.show()
