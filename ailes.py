@@ -28,14 +28,14 @@ affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots e
     'champions_match_taux_defaite': True,
 }
 
-if True:
+if True: # Lecture des données
     # Lire les données
     champion = pd.read_csv('champions.csv', index_col=None)
     # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
     champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
     matches = pd.read_csv('matches.csv', index_col=None)
 
-if affichages['champion']:
+if affichages['champion']: # Affichage des données sur les champions
     # Afficher les 5 premières lignes des données sur les champions
     print(champion.head())
 
@@ -59,7 +59,7 @@ if affichages['champion']:
         # Afficher la moyenne et l'écart type des colonnes numériques
         print(champion.describe())
 
-if True:
+if True: # Obtention des tags
     # Essayons de voir comment les statistiques sont corrélées aux tags
     # Tout d'abord, regardons les tags
     # Les tags sont stockés sous forme de liste de chaînes de caractères, obtenons une liste de tous les tags
@@ -67,7 +67,7 @@ if True:
     for tag in champion['tags']:
         tags.extend(tag)
 
-if affichages['tags']:
+if affichages['tags']: # Plot des champions par tag
     # Montrons maintenant le nombre de champions avec chaque tag
     plt.figure("Nombre de champions avec chaque tag")
     sns.histplot(tags, shrink=0.8, color='cornflowerblue')
@@ -76,7 +76,7 @@ if affichages['tags']:
     plt.title('Nombre de champions pour chaque tag')
     plt.tight_layout()
 
-if True:
+if True: # Calcul des statistiques tag-rôle
     # Montrons la corrélation entre les tags et les rôles
     # Les rôles sont "bluetop", "bluejungle", "bluemid", "blueadc", "bluesupport", "redtop", "redjungle", "redmid", "redadc", "redsupport" et sont des colonnes dans les données de match
     # Tout d'abord, obtenons une liste de tous les rôles
@@ -100,7 +100,7 @@ if True:
     # Renverser le dataframe pour que les rôles soient les lignes et les tags les colonnes
     tag_role = tag_role.transpose()
 
-if affichages['tags_roles']:
+if affichages['tags_roles']: # Plot des tags par rôle
     # Tracer le résultat
     tag_role.plot(kind='bar', stacked=True, title='Nombre de champions avec chaque tag pour chaque rôle')
     plt.xlabel('Rôle')
@@ -108,7 +108,7 @@ if affichages['tags_roles']:
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
 
-if True:
+if True: # Calcul des statistiques tag-stat (moyenne, écart type, écart type relatif)
     # Montrons maintenant la corrélation entre les tags et les statistiques
     # Les stats sont attack, defense, magic, difficulty, hp, hpperlevel, mp, mpperlevel, movespeed, armor, armorperlevel, spellblock, spellblockperlevel, attackrange, hpregen, hpregenperlevel, mpregen, mpregenperlevel, crit, critperlevel, attackdamage, attackdamageperlevel, attackspeedperlevel, attackspeed et sont des colonnes numériques dans les données des champions
     # On a déjà la liste des tags uniques
@@ -136,7 +136,7 @@ if True:
     # Renverser le dataframe pour que les statistiques soient les lignes et les tags les colonnes
     tag_stat_rel_std = tag_stat_rel_std.transpose()
 
-if affichages['tags_stats']:
+if affichages['tags_stats']: # Plot des statistiques tag-stat (moyenne, écart type, écart type relatif)
     if affichages['tags_stats_moy']:
         # Tracer le résultat
         tag_stat_mean.plot(kind='bar', title='Moyenne des statistiques pour chaque tag') # Pas très utile, les moyennes dépendent de la stats mais pas vraiment du tag
@@ -161,7 +161,7 @@ if affichages['tags_stats']:
         plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         plt.tight_layout()
 
-if True:
+if True: # Calcul des statistiques tag-tag (champions, matchs, relatif)
     # Faisons une heatmap pour voir quels tags sont le plus souvent ensemble
     tag_tag = pd.DataFrame(index=unique_tags, columns=unique_tags, dtype=int)
     for tag1 in unique_tags:
@@ -180,7 +180,7 @@ if True:
     # On va diviser tag_tag_m par tag_tag
     tag_tag_ = tag_tag_m / tag_tag # Si quelqu'un a une meilleure idée pour tous ces noms, je suis preneur
 
-if affichages['tags_heatmaps']:
+if affichages['tags_heatmaps']: # Plot des heatmaps tag-tag (champions, matchs, relatif)
     if affichages['tags_heatmap_champ']:
         # Tracer le résultat
         plt.figure("Heatmap des tags")
@@ -208,7 +208,7 @@ if affichages['tags_heatmaps']:
         plt.ylabel('Tag 2')
         plt.tight_layout()
 
-if True:
+if True: # Calcul des statistiques champion-match (popularité, victoires, défaites, taux de victoire, taux de défaite)
     # On va maintenant s'intéresser aux matchs : quels champions sont les plus populaires ? Quels sont les champions les plus efficaces ? Quels sont les champions les plus efficaces par rapport à leur popularité ?
     # On va commencer par les champions les plus populaires
 
@@ -243,7 +243,7 @@ if True:
         if not champ in champ_unused.index:
             champ_match.loc[champ, 'taux defaite'] = champ_match.loc[champ, 'defaites'] / champ_match.loc[champ, 'popularite']
 
-if affichages['champions_match']:
+if affichages['champions_match']: # Affichage des statistiques champion-match (popularité, victoires, défaites)
     if affichages['champions_match_non_used']:
         # On renvoie les champions qui ne sont jamais apparus dans les matchs
         print(champ_unused)
@@ -281,5 +281,5 @@ if affichages['champions_match']:
         plt.ylabel('Taux de défaite')
         plt.tight_layout()
 
-if True:
+if True: # plt.show()
     plt.show()
