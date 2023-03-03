@@ -4,10 +4,10 @@ import numpy as np
 import seaborn as sns
 
 # Lire les données
-champion = pd.read_csv('champions.csv', index_col=0)
+champion = pd.read_csv('champions.csv', index_col=None)
 # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
 champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
-matches = pd.read_csv('matches.csv', index_col=0)
+matches = pd.read_csv('matches.csv', index_col=None)
 # Afficher les 5 premières lignes des données sur les champions
 print(champion.head())
 
@@ -40,14 +40,16 @@ plt.ylabel('Nombre de champions')
 # Montrons la corrélation entre les tags et les rôles
 # Les rôles sont "bluetop", "bluejungle", "bluemid", "blueadc", "bluesupport", "redtop", "redjungle", "redmid", "redadc", "redsupport" et sont des colonnes dans les données de match
 # Tout d'abord, obtenons une liste de tous les rôles
-roles = matches.columns[3:-1]
+roles = matches.columns[4:-1]
+print(roles)
 # Maintenant, obtenons une liste de tous les tags uniques
 unique_tags = list(set(tags))
 # Maintenant, créons un dataframe avec le nombre de champions ayant chaque tag pour chaque rôle
 tag_role = pd.DataFrame(index=unique_tags, columns=roles)
 for role in roles:
     for tag in unique_tags:
-        tag_role.loc[tag, role] = sum(matches[role].isin(champion[champion['tags'].apply(lambda x: tag in x)].index))
+        tag_role.loc[tag, role] = sum(matches[role].isin(champion[champion['tags'].apply(lambda x: tag in x)]['id']))
+print(tag_role)
 
 # Regroupons les rôles bleus et rouges
 tag_role['top'] = tag_role['bluetop'] + tag_role['redtop']
@@ -120,6 +122,30 @@ for tag1 in unique_tags:
 plt.figure("Heatmap des tags")
 sns.heatmap(tag_tag, annot=True, fmt='g', cmap='Blues')
 plt.title('Heatmap des tags')
+plt.xlabel('Tag 1')
+plt.ylabel('Tag 2')
+
+# Faisons une heatmap pour voir quels tags sont le plus souvent ensemble dans les matchs
+tag_tag_m = pd.DataFrame(index=unique_tags, columns=unique_tags, dtype=int, data=0)
+for tag1 in unique_tags:
+    for tag2 in unique_tags:
+        for champ in champion[champion['tags'].apply(lambda x: tag1 in x and tag2 in x if tag1 != tag2 else tag1 in x and len(x) == 1)]['id']:
+            # Désolé pour la ligne suivante...
+            tag_tag_m.loc[tag1, tag2] += sum(matches['bluetop'] == champ) + sum(matches['bluejungle'] == champ) + sum(matches['bluemid'] == champ) + sum(matches['blueadc'] == champ) + sum(matches['bluesupport'] == champ) + sum(matches['redtop'] == champ) + sum(matches['redjungle'] == champ) + sum(matches['redmid'] == champ) + sum(matches['redadc'] == champ) + sum(matches['redsupport'] == champ)
+# Tracer le résultat
+plt.figure("Heatmap des tags dans les matchs")
+sns.heatmap(tag_tag_m, annot=True, fmt='g', cmap='Blues')
+plt.title('Heatmap des tags dans les matchs')
+plt.xlabel('Tag 1')
+plt.ylabel('Tag 2')
+
+# Faisons une heatmap pour voir quelles combinaisons de tags sont les plus populaires
+# On va diviser tag_tag_m par tag_tag
+tag_tag_ = tag_tag_m / tag_tag # Si quelqu'un a une meilleure idée pour tous ces noms, je suis preneur
+# Tracer le résultat
+plt.figure("Heatmap des tags dans les matchs normalisée")
+sns.heatmap(tag_tag_, annot=True, fmt='.2f', cmap='Blues')
+plt.title('Heatmap des tags dans les matchs normalisée')
 plt.xlabel('Tag 1')
 plt.ylabel('Tag 2')
 
