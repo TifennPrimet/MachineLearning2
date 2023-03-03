@@ -1,7 +1,8 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-import seaborn as sns
+if True: # Importation des modules
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import seaborn as sns
 
 affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots et les print
     'champion': True, # Nécessaire pour les quatre suivants
@@ -26,6 +27,10 @@ affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots e
     'champions_match_popularite': True,
     'champions_match_taux_victoire': True,
     'champions_match_taux_defaite': True,
+    'compos_match': True, # Nécessaire pour les trois suivants
+    'compos_match_popularite': True,
+    'compos_match_taux_victoire': True,
+    'compos_match_taux_defaite': True,
 }
 
 if True: # Lecture des données
@@ -278,6 +283,61 @@ if affichages['champions_match']: # Affichage des statistiques champion-match (p
         champ_match.sort_values(by='taux defaite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(kind='bar')
         plt.title('Champions les moins efficaces')
         plt.xlabel('Champion')
+        plt.ylabel('Taux de défaite')
+        plt.tight_layout()
+
+if True: # Calcul des statistiques champion-compos
+    # On va maintenant s'intéresser aux équipes : quels compos sont les plus populaires ? Quels compos sont les plus efficaces ? Quels compos sont les plus efficaces par rapport à leur popularité ?
+    # On va déterminer toutes les combinaisons utilisées
+    compos = pd.DataFrame(index=matches.index, columns=['blue', 'red'])
+    for i in range(len(matches)):
+        compos.loc[i, 'blue'] = str(matches.loc[i, 'bluetop']) + ", " + str(matches.loc[i, 'bluejungle']) + ", " + str(matches.loc[i, 'bluemid']) + ", " + str(matches.loc[i, 'blueadc']) + ", " + str(matches.loc[i, 'bluesupport'])
+        compos.loc[i, 'red'] = str(matches.loc[i, 'redtop']) + ", " + str(matches.loc[i, 'redjungle']) + ", " + str(matches.loc[i, 'redmid']) + ", " + str(matches.loc[i, 'redadc']) + ", " + str(matches.loc[i, 'redsupport'])
+
+    compos_blue = compos['blue'].value_counts()
+    compos_red = compos['red'].value_counts()
+    compos_uniques = pd.concat([compos_blue, compos_red], axis=1).fillna(0)
+    compos_uniques['popularite'] = compos_uniques['blue'] + compos_uniques['red']
+    compos_uniques = compos_uniques.drop(['blue', 'red'], axis=1)
+
+    blue_wins = compos[matches['result'] == 1]
+    red_wins = compos[matches['result'] == 0]
+
+    # On va maintenant créer un dataframe avec les compos et leur nombre de victoire
+    for compos in compos_uniques.index:
+        compos_uniques.loc[compos, 'victoires'] = sum(blue_wins['blue'] == compos) + sum(red_wins['red'] == compos)
+        compos_uniques.loc[compos, 'defaites'] = sum(red_wins['blue'] == compos) + sum(blue_wins['red'] == compos)
+
+    # On va maintenant créer un dataframe avec les compos et leur nombre de victoire par rapport à leur nombre d'apparition
+    for compos in compos_uniques.index:
+        compos_uniques.loc[compos, 'taux victoire'] = compos_uniques.loc[compos, 'victoires'] / compos_uniques.loc[compos, 'popularite']
+        compos_uniques.loc[compos, 'taux defaite'] = compos_uniques.loc[compos, 'defaites'] / compos_uniques.loc[compos, 'popularite']
+
+if affichages['compos_match']: # Affichage des statistiques compos-match (popularité, victoires, défaites)
+    if affichages['compos_match_popularite']:
+        # On affiche les compos les plus populaires
+        # plt.figure("Compos les plus populaires")
+        compos_uniques.sort_values(by='popularite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(kind='bar')
+        plt.title('Compos les plus populaires')
+        plt.xlabel('Compo')
+        plt.ylabel('Nombre d\'apparition')
+        plt.tight_layout()
+
+    if affichages['compos_match_taux_victoire']:
+        # On affiche les compos les plus efficaces
+        # plt.figure("Compos les plus efficaces")
+        compos_uniques.sort_values(by='taux victoire', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(kind='bar')
+        plt.title('Compos les plus efficaces')
+        plt.xlabel('Compo')
+        plt.ylabel('Taux de victoire')
+        plt.tight_layout()
+
+    if affichages['compos_match_taux_defaite']:
+        # On affiche les compos les moins efficaces
+        # plt.figure("Compos les moins efficaces")
+        compos_uniques.sort_values(by='taux defaite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(kind='bar')
+        plt.title('Compos les moins efficaces')
+        plt.xlabel('Compo')
         plt.ylabel('Taux de défaite')
         plt.tight_layout()
 
