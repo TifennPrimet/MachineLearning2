@@ -10,8 +10,8 @@ affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots e
     'champion_attaque_magie': True,
     'champion_moyenne_ecart_type': True,
     'champion_describe': True,
-    'tags': True,
-    'tags_roles': True,
+    'tags': False,
+    'tags_roles': False,
     'tags_stats': False, # Nécessaire pour les trois suivants
     'tags_stats_moy': True,
     'tags_stats_std': True,
@@ -20,20 +20,20 @@ affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots e
     'tags_heatmap_champ': True,
     'tags_heatmap_match': True,
     'tags_heatmap_match_rel': True,
-    'champions_match': True,
+    'champions_match': False, # Nécessaire pour les six suivants
     'champions_match_non_used': True,
     'champions_match_victoire': True,
     'champions_match_defaite': True,
     'champions_match_popularite': True,
     'champions_match_taux_victoire': True,
     'champions_match_taux_defaite': True,
-    'champions_match_par_roles': True, # Affichage des statistiques champion-match par rôle (popularité, victoires, défaites)
+    'champions_match_par_roles': False, # Nécessaire pour les cinq suivants
     'champions_match_par_roles_top': True, # rôle = top
     'champions_match_par_roles_jungle': True, # rôle = jungle
     'champions_match_par_roles_mid': True, # rôle = mid
     'champions_match_par_roles_adc': True, # rôle = adc
     'champions_match_par_roles_support': True, # rôle = support
-    'compos_match': True, # Nécessaire pour les trois suivants
+    'compos_match': False, # Nécessaire pour les trois suivants
     'compos_match_popularite': True,
     'compos_match_taux_victoire': True,
     'compos_match_taux_defaite': True,
@@ -292,33 +292,54 @@ if affichages['champions_match']: # Affichage des statistiques champion-match (p
         plt.ylabel('Taux de défaite')
         plt.tight_layout()
 
+def calc_popularity(nom_roles):
+    """
+    Calcule les statistiques de popularité des champions pour un rôle donné
+    Le rôle doit être écrit sous la forme du suffixe ('top', 'jungle', 'mid', 'adc' ou 'support')
+    """
+    assert nom_roles in ['top', 'jungle', 'mid', 'adc', 'support'], "Le rôle doit être écrit sous la forme du suffixe ('top', 'jungle', 'mid', 'adc' ou 'support')"
+
+    # On va maintenant ajouter une colonne avec le nombre d'apparition de chaque champion dans le rôle
+    for champ in champion['id']:
+        champ_match.loc[champ, 'popularite' + nom_roles] = sum(matches['blue' + nom_roles] == champ) + sum(matches['red' + nom_roles] == champ)
+
+    # On va recréer champ_unused pour ne pas avoir de problème de référence
+    champ_unused_role = champ_match[champ_match['popularite' + nom_roles] == 0]
+
+    # On va maintenant ajouter une colonne avec le nombre de victoire de chaque champion dans le rôle
+    for champ in champion['id']:
+        champ_match.loc[champ, 'victoires' + nom_roles] = sum(blue_wins['blue' + nom_roles] == champ) + sum(red_wins['red' + nom_roles] == champ)
+
+    # On va maintenant ajouter une colonne avec le nombre de défaite de chaque champion dans le rôle
+    for champ in champion['id']:
+        champ_match.loc[champ, 'defaites' + nom_roles] = sum(red_wins['blue' + nom_roles] == champ) + sum(blue_wins['red' + nom_roles] == champ) 
+
+    # On va maintenant ajouter une colonne avec le nombre de victoire par rapport au nombre d'apparition de chaque champion dans le rôle
+    for champ in champion['id']:
+        if not champ in champ_unused_role.index:
+            champ_match.loc[champ, 'taux victoire' + nom_roles] = champ_match.loc[champ, 'victoires' + nom_roles] / champ_match.loc[champ, 'popularite' + nom_roles]
+
+    # On va maintenant ajouter une colonne avec le nombre de défaite par rapport au nombre d'apparition de chaque champion dans le rôle
+    for champ in champion['id']:
+        if not champ in champ_unused_role.index:
+            champ_match.loc[champ, 'taux defaite' + nom_roles] = champ_match.loc[champ, 'defaites' + nom_roles] / champ_match.loc[champ, 'popularite' + nom_roles]
+
+if True: # Calcul des statistiques champion-match par rôle (popularité, victoires, défaites)
+    calc_popularity('top')
+    calc_popularity('jungle')
+    calc_popularity('mid')
+    calc_popularity('adc')
+    calc_popularity('support')
+
 def plot_popularity(nom_roles):
     """
     Affiche les statistiques de popularité des champions pour un rôle donné
     Le rôle doit être écrit sous la forme du suffixe ('top', 'jungle', 'mid', 'adc' ou 'support')
     """
-    # On va maintenant créer un dataframe avec les champions et leur nombre de victoire
-    for champ in champion['id']:
-        champ_match.loc[champ, 'victoires'] = sum(blue_wins['blue' + nom_roles] == champ) + sum(red_wins['red' + nom_roles] == champ)
-
-    # On va maintenant créer un dataframe avec les champions et leur nombre de défaite
-    for champ in champion['id']:
-        champ_match.loc[champ, 'defaites'] = sum(red_wins['blue' + nom_roles] == champ) + sum(blue_wins['red' + nom_roles] == champ) 
-
-    # On va maintenant créer un dataframe avec les champions et leur nombre de victoire par rapport à leur nombre d'apparition
-    for champ in champion['id']:
-        if not champ in champ_unused.index:
-            champ_match.loc[champ, 'taux victoire'] = champ_match.loc[champ, 'victoires'] / champ_match.loc[champ, 'popularite']
-
-    # On va maintenant créer un dataframe avec les champions et leur nombre de défaite par rapport à leur nombre d'apparition
-    for champ in champion['id']:
-        if not champ in champ_unused.index:
-            champ_match.loc[champ, 'taux defaite'] = champ_match.loc[champ, 'defaites'] / champ_match.loc[champ, 'popularite']
-
-    
+    assert nom_roles in ['top', 'jungle', 'mid', 'adc', 'support'], "Le rôle doit être écrit sous la forme du suffixe ('top', 'jungle', 'mid', 'adc' ou 'support')"
     fig, (ax1, ax2, ax3) = plt.subplots(3)
     # On affiche tout ça
-    champ_match.sort_values(by='popularite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(ax = ax1, kind='bar')
+    champ_match[champ_match['popularite' + nom_roles] != 0].sort_values(by='popularite' + nom_roles, ascending=False)[["popularite" + nom_roles, "victoires" + nom_roles, "defaites" + nom_roles]].head(10).plot(ax = ax1, kind='bar')
     ax1.set_title('Champions les plus populaires')
     ax1.set_xlabel('Champion')
     ax1.set_ylabel('Nombre d\'apparition')
@@ -326,14 +347,14 @@ def plot_popularity(nom_roles):
     # ax1.set_xticks(rotation=0)
     ax1.autoscale(tight=True)
 
-    champ_match.sort_values(by='taux victoire', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(ax = ax2, kind='bar')
+    champ_match[champ_match['popularite' + nom_roles] != 0].sort_values(by='taux victoire' + nom_roles, ascending=False)[["popularite" + nom_roles, "victoires" + nom_roles, "defaites" + nom_roles]].head(10).plot(ax = ax2, kind='bar')
     ax2.set_title('Champions les plus efficaces')
     ax2.set_xlabel('Champion')
     ax2.set_ylabel('Taux de victoire')
     ax2.tick_params(axis='x', labelrotation=0)
     ax2.autoscale(tight=True)
 
-    champ_match.sort_values(by='taux defaite', ascending=False)[["popularite", "victoires", "defaites"]].head(10).plot(ax = ax3, kind='bar')
+    champ_match[champ_match['popularite' + nom_roles] != 0].sort_values(by='taux defaite' + nom_roles, ascending=False)[["popularite" + nom_roles, "victoires" + nom_roles, "defaites" + nom_roles]].head(10).plot(ax = ax3, kind='bar')
     ax3.set_title('Champions les moins efficaces')
     ax3.set_xlabel('Champion')
     ax3.set_ylabel('Taux de défaite')
@@ -354,7 +375,6 @@ if affichages['champions_match_par_roles']: # Affichage des statistiques champio
         plot_popularity('adc')
     if affichages['champions_match_par_roles_support']: # Dans le rôle de support
         plot_popularity('support')
-
 
 if True: # Calcul des statistiques champion-compos
     # On va maintenant s'intéresser aux équipes : quels compos sont les plus populaires ? Quels compos sont les plus efficaces ? Quels compos sont les plus efficaces par rapport à leur popularité ?
