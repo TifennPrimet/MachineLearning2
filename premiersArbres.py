@@ -1,3 +1,4 @@
+import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -22,7 +23,10 @@ def getStat(color, role, stat):
     #   - stats: une liste contenant la statistique pour chaque champion
     stats = []
     for champ in matches[color + role]:
-        stats.append(champion[champion['id'] == champ][stat].values[0])
+        if stat in ['Fighter', 'Mage', 'Marksman', 'Support', 'Tank', 'Assassin']:
+            stats.append(1 if stat in champion[champion['id'] == champ]['tags'].values[0] else 0)
+        else:
+            stats.append(champion[champion['id'] == champ][stat].values[0])
     return stats
 
 def train_test_split(func: callable, *args, test_size: float=0.2):
@@ -105,10 +109,10 @@ def bestParamsplot(func: callable, *args, test_size: float=0.2, min_samples_spli
     #   - bestParams: les meilleurs paramètres
     bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
     accuracy = []
+    X_train, X_test, y_train, y_test = train_test_split(func, *args, test_size=test_size)
     for i in min_samples_split:
         accuracy.append([])
         for j in max_depth:
-            X_train, X_test, y_train, y_test = train_test_split(func, *args, test_size=test_size)
             clf = train(X_train, y_train, i, j)
             accuracy[-1].append(getAccuracy(clf, X_test, y_test))
             # print('min_samples_split =', i, 'max_depth =', j, 'accuracy =', accuracy[-1][-1])
@@ -123,25 +127,84 @@ def bestParamsplot(func: callable, *args, test_size: float=0.2, min_samples_spli
     plt.show()
     return bestParams
 
-# Exemple d'utilisation des fonctions
-X_train, X_test, y_train, y_test = train_test_split(getStat, ('top', ('hp',)), test_size=0.2)
-clf = train(X_train, y_train, 100, 5)
-print(getAccuracy(clf, X_test, y_test)) # 0.5125786163522013, pas super mais mieux que rien
+def bestParamsplot2(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[1, 2, 5, 10, 20, 50, 100, 1000], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
+    # Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et d'afficher une heatmap
+    # Entrée:
+    #   - func: la fonction qui permet de récupérer les données
+    #   - test_size: la taille de l'ensemble de test
+    #   - min_samples_split: la liste des valeurs de min_samples_split à tester
+    #   - max_depth: la liste des valeurs de max_depth à tester
+    # Sortie:
+    #   - bestParams: les meilleurs paramètres
+    bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
+    accuracy = []
+    for i in min_samples_split:
+        accuracy.append([])
+        for j in max_depth:
+            clf = train(X_train, y_train, i, j)
+            accuracy[-1].append(getAccuracy(clf, X_test, y_test))
+            print('min_samples_split =', i, 'max_depth =', j, 'accuracy =', accuracy[-1][-1])
+            if accuracy[-1][-1] > bestParams['accuracy']:
+                bestParams['min_samples_split'] = i
+                bestParams['max_depth'] = j
+                bestParams['accuracy'] = accuracy[-1][-1]
+    plt.figure("Accuracy")
+    sns.heatmap(accuracy, xticklabels=max_depth, yticklabels=min_samples_split, annot=True, fmt=".2f", cmap="YlGnBu")
+    plt.title("Accuracy")
+    plt.xlabel('max_depth')
+    plt.ylabel('min_samples_split')
+    plt.show()
+    return bestParams
 
-# bestParams automatise la recherche des meilleurs paramètres (min_samples_split et max_depth)
-params = bestParams(getStat, ('top', ('hp',)), test_size=0.2)
-print(params)
+# # Exemple d'utilisation des fonctions
+# X_train, X_test, y_train, y_test = train_test_split(getStat, ('top', ('hp',)), test_size=0.2)
+# clf = train(X_train, y_train, 100, 5)
+# print(getAccuracy(clf, X_test, y_test)) # 0.5125786163522013, pas super mais mieux que rien
 
-# bestParamsplot affiche aussi une heatmap des résultats
-params = bestParamsplot(getStat, ('top', ('hp',)), test_size=0.2)
-print(params)
+# # bestParams automatise la recherche des meilleurs paramètres (min_samples_split et max_depth)
+# params = bestParams(getStat, ('top', ('hp',)), test_size=0.2)
+# print(params)
+
+# # bestParamsplot affiche aussi une heatmap des résultats
+# params = bestParamsplot(getStat, ('top', ('hp',)), test_size=0.2)
+# print(params)
 
 # # Les hps seul ne sont pas très efficaces, on peut essayer avec les hps et les mps
 # X_train, X_test, y_train, y_test = train_test_split(getStat, ('top', ('hp', 'mp')), test_size=0.2)
-# print(X_test)
+# clf = train(X_train, y_train, 100, 5)
+# print(getAccuracy(clf, X_test, y_test)) # 0.5157232704402516, un peu mieux, il ne reste plus qu'à mettre plus de paramètres
 
 # params = bestParamsplot(getStat, ('top', ('hp', 'mp')), test_size=0.2)
 # print(params)
+
+# # On va essayer avec toutes les stats (ça va probablement être long (effectivement, ça a mis 02h 07min... les meilleurs paramètres sont min_samples_split = 2 max_depth = 5))
+# stats = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'crit', 'critperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
+# roles = ('top', 'jungle', 'mid', 'adc', 'support')
+# # params = bestParamsplot(getStat, *[(pos, stat) for pos in roles], test_size=0.2)
+# # print(params)
+
+# # On va sauvegarder le meilleur arbre et le dataset pour ne pas les générer à chaque fois
+# X_train, X_test, y_train, y_test = train_test_split(getStat, *[(pos, stats) for pos in roles], test_size=0.2)
+# pickle.dump(X_train, open('full_X_train.pkl', 'wb'))
+# pickle.dump(X_test, open('full_X_test.pkl', 'wb'))
+# pickle.dump(y_train, open('full_y_train.pkl', 'wb'))
+# pickle.dump(y_test, open('full_y_test.pkl', 'wb'))
+
+X_train = pickle.load(open('full_X_train.pkl', 'rb'))
+X_test = pickle.load(open('full_X_test.pkl', 'rb'))
+y_train = pickle.load(open('full_y_train.pkl', 'rb'))
+y_test = pickle.load(open('full_y_test.pkl', 'rb'))
+
+clf = train(X_train, y_train, 2, 3) # prends ~ 3min
+pickle.dump(clf, open('full_tree.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
+
+clf = pickle.load(open('full_tree.pkl', 'rb'))
+tree.plot_tree(clf)
+print(getAccuracy(clf, X_test, y_test)) # 0.5188679245283019 avec 2 5
+plt.show()
+
+params = bestParamsplot2(X_train, X_test, y_train, y_test, range(1, 50), range(1, 50))
+print(params)
 
 # print(matches['bluetop'])
 # clf = tree.DecisionTreeClassifier(min_samples_split=100, max_depth=5)
