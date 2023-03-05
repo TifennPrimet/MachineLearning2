@@ -19,6 +19,7 @@ def getStat(color, role, stat):
     : param color: la couleur de l'équipe
     : param role: le rôle du champion
     : param stat: la statistique à récupérer
+
     : return stats: une liste contenant la statistique pour chaque champion
     """
     stats = []
@@ -31,8 +32,11 @@ def getStat(color, role, stat):
 
 def train_test_split(func: callable, *args, test_size: float=0.2):
     """Cette fonction permet de diviser les données en un ensemble d'entraînement et un ensemble de test
+
     : param  func: la fonction qui permet de récupérer les données
+    : param  args: les arguments de func
     : param  test_size: la taille de l'ensemble de test
+
     : return X_train: les données d'entraînement
     : return X_test: les données de test
     : return y_train: les labels d'entraînement
@@ -49,13 +53,14 @@ def train_test_split(func: callable, *args, test_size: float=0.2):
     return X_train, X_test, y_train, y_test
 
 def getAccuracy(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
-    # Cette fonction permet de calculer la précision d'un classifieur
-    # Entrée:
-    #   - clf: le classifieur
-    #   - X_test: les données de test
-    #   - y_test: les labels de test
-    # Sortie:
-    #   - accuracy: la précision du classifieur
+    """Cette fonction permet de calculer la précision d'un classifieur
+
+    : param  clf: le classifieur
+    : param  X_test: les données de test
+    : param  y_test: les labels de test
+
+    : return accuracy: la précision du classifieur
+    """
     accuracy = 0
     for i in range(len(X_test)):
         if clf.predict([X_test[i]]) == y_test.values[i]:
@@ -63,31 +68,34 @@ def getAccuracy(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
     return accuracy/len(X_test)
 
 def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int=None):
-    # Cette fonction permet d'entraîner un classifieur
-    # Entrée:
-    #   - func: la fonction qui permet de récupérer les données
-    #   - test_size: la taille de l'ensemble de test
-    #   - min_samples_split: le nombre minimum d'exemples pour diviser un noeud
-    #   - max_depth: la profondeur maximale de l'arbre
-    # Sortie:
-    #   - clf: le classifieur
+    """Cette fonction permet d'entraîner un classifieur
+
+    : param  X_train: les données d'entraînement
+    : param  y_train: les labels d'entraînement
+    : param  min_samples_split: le nombre minimum d'échantillons requis pour diviser un noeud
+    : param  max_depth: la profondeur maximale de l'arbre
+
+    : return clf: le classifieur
+    """
     clf = tree.DecisionTreeClassifier(min_samples_split=min_samples_split, max_depth=max_depth)
     clf = clf.fit(X_train, y_train)
     return clf
 
-def bestParams(func: callable, *args, test_size: float=0.2, min_samples_split: list=[2, 5, 10, 20, 50, 100], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
-    # Cette fonction permet de trouver les meilleurs paramètres pour un classifieur
-    # Entrée:
-    #   - func: la fonction qui permet de récupérer les données
-    #   - test_size: la taille de l'ensemble de test
-    #   - min_samples_split: la liste des valeurs de min_samples_split à tester
-    #   - max_depth: la liste des valeurs de max_depth à tester
-    # Sortie:
-    #   - bestParams: les meilleurs paramètres
+def bestParams(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[2, 5, 10, 20, 50, 100], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
+    """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur
+
+    : param  X_train: les données d'entraînement
+    : param  X_test: les données de test
+    : param  y_train: les labels d'entraînement
+    : param  y_test: les labels de test
+    : param  min_samples_split: la liste des valeurs de min_samples_split à tester
+    : param  max_depth: la liste des valeurs de max_depth à tester
+
+    : return bestParams: les meilleurs paramètres
+    """
     bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
     for i in min_samples_split:
         for j in max_depth:
-            X_train, X_test, y_train, y_test = train_test_split(func, *args, test_size=test_size)
             clf = train(X_train, y_train, i, j)
             accuracy = getAccuracy(clf, X_test, y_test)
             # print('min_samples_split =', i, 'max_depth =', j, 'accuracy =', accuracy)
@@ -97,18 +105,20 @@ def bestParams(func: callable, *args, test_size: float=0.2, min_samples_split: l
                 bestParams['accuracy'] = accuracy
     return bestParams
 
-def bestParamsplot(func: callable, *args, test_size: float=0.2, min_samples_split: list=[2, 5, 10, 20, 50, 100], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
-    # Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et d'afficher une heatmap
-    # Entrée:
-    #   - func: la fonction qui permet de récupérer les données
-    #   - test_size: la taille de l'ensemble de test
-    #   - min_samples_split: la liste des valeurs de min_samples_split à tester
-    #   - max_depth: la liste des valeurs de max_depth à tester
-    # Sortie:
-    #   - bestParams: les meilleurs paramètres
+def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[2, 5, 10, 20, 50, 100], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
+    """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et de tracer la précision en fonction de ces paramètres
+
+    : param  X_train: les données d'entraînement
+    : param  X_test: les données de test
+    : param  y_train: les labels d'entraînement
+    : param  y_test: les labels de test
+    : param  min_samples_split: la liste des valeurs de min_samples_split à tester
+    : param  max_depth: la liste des valeurs de max_depth à tester
+
+    : return bestParams: les meilleurs paramètres
+    """
     bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
     accuracy = []
-    X_train, X_test, y_train, y_test = train_test_split(func, *args, test_size=test_size)
     for i in min_samples_split:
         accuracy.append([])
         for j in max_depth:
@@ -127,14 +137,17 @@ def bestParamsplot(func: callable, *args, test_size: float=0.2, min_samples_spli
     return bestParams
 
 def bestParamsplot2(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[1, 2, 5, 10, 20, 50, 100, 1000], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
-    # Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et d'afficher une heatmap
-    # Entrée:
-    #   - func: la fonction qui permet de récupérer les données
-    #   - test_size: la taille de l'ensemble de test
-    #   - min_samples_split: la liste des valeurs de min_samples_split à tester
-    #   - max_depth: la liste des valeurs de max_depth à tester
-    # Sortie:
-    #   - bestParams: les meilleurs paramètres
+    """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et de tracer la précision en fonction de ces paramètres
+
+    : param  X_train: les données d'entraînement
+    : param  X_test: les données de test
+    : param  y_train: les labels d'entraînement
+    : param  y_test: les labels de test
+    : param  min_samples_split: la liste des valeurs de min_samples_split à tester
+    : param  max_depth: la liste des valeurs de max_depth à tester
+
+    : return bestParams: les meilleurs paramètres
+    """
     bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
     accuracy = []
     for i in min_samples_split:
@@ -194,12 +207,12 @@ X_test = pickle.load(open('full_X_test.pkl', 'rb'))
 y_train = pickle.load(open('full_y_train.pkl', 'rb'))
 y_test = pickle.load(open('full_y_test.pkl', 'rb'))
 
-clf = train(X_train, y_train, 2, 3) # prends ~ 3min
-pickle.dump(clf, open('full_tree.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
+# clf = train(X_train, y_train, 2, 3) # prends ~ 3min
+# pickle.dump(clf, open('full_tree.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
 
 clf = pickle.load(open('full_tree.pkl', 'rb'))
 tree.plot_tree(clf)
-print(getAccuracy(clf, X_test, y_test)) # 0.5188679245283019 avec 2 5
+print(getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
 plt.show()
 
 params = bestParamsplot2(X_train, X_test, y_train, y_test, range(1, 50), range(1, 50))
