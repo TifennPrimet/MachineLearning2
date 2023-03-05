@@ -5,36 +5,35 @@ import seaborn as sns
 from sklearn import tree
 
 if True: # Lecture des données
-    # Lire les données
     champion = pd.read_csv('champions.csv', index_col=None)
     # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
     champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
     matches = pd.read_csv('matches.csv', index_col=None)
+    print( " I got the datas ! ")
 
 # Helper functions
 def getStat(color, role, stat):
-    # Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
-    # Entrée:
-    #   - color: la couleur de l'équipe
-    #   - role: le rôle du champion
-    #   - stat: la statistique à récupérer
-    # Sortie:
-    #   - stats: une liste contenant la statistique pour chaque champion
+    """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
+    
+    : param color: la couleur de l'équipe
+    : param role: le rôle du champion
+    : param stat: la statistique à récupérer
+    : return stats: une liste contenant la statistique pour chaque champion
+    """
     stats = []
     for champ in matches[color + role]:
         stats.append(champion[champion['id'] == champ][stat].values[0])
     return stats
 
 def train_test_split(func: callable, *args, test_size: float=0.2):
-    # Cette fonction permet de diviser les données en un ensemble d'entraînement et un ensemble de test
-    # Entrée:
-    #   - func: la fonction qui permet de récupérer les données
-    #   - test_size: la taille de l'ensemble de test
-    # Sortie:
-    #   - X_train: les données d'entraînement
-    #   - X_test: les données de test
-    #   - y_train: les labels d'entraînement
-    #   - y_test: les labels de test
+    """Cette fonction permet de diviser les données en un ensemble d'entraînement et un ensemble de test
+    : param  func: la fonction qui permet de récupérer les données
+    : param  test_size: la taille de l'ensemble de test
+    : return X_train: les données d'entraînement
+    : return X_test: les données de test
+    : return y_train: les labels d'entraînement
+    : return y_test: les labels de test
+    """
     X = [list(i) for i in zip(*sum([[func('red', arg[0], ar) for ar in arg[1]] for arg in args] + [[func('blue', arg[0], ar) for ar in arg[1]] for arg in args], []))] # Si ça marche, pas touche
     y = matches['result']
     n = len(X)
