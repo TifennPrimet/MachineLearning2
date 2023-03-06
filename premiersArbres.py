@@ -97,7 +97,7 @@ def train_test_split(func: callable, *args, test_size: float = 0.2):
     : return y_test: les labels de test
     """
     X = [list(i) for i in zip(*sum([sum([func(arg[0], ar) for ar in arg[1]], []) for arg in args], []))] # Si ça marche, pas touche
-    y = matches['result']
+    y = stats['result']
     n = len(X)
     cut = int((1-test_size)*n)
     X_train = X[:cut]
@@ -150,12 +150,12 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
     accuracy = []
     for i in min_samples_split:
-        print(bestParams)
+        # print(bestParams)
         accuracy.append([])
         for j in max_depth:
             clf = train(X_train, y_train, i, j)
             accuracy[-1].append(getAccuracy(clf, X_test, y_test))
-            # print('min_samples_split =', i, 'max_depth =', j, 'accuracy =', accuracy[-1][-1])
+            print('min_samples_split =', i, 'max_depth =', j, 'accuracy =', accuracy[-1][-1])
             if accuracy[-1][-1] > bestParams['accuracy']:
                 bestParams['min_samples_split'] = i
                 bestParams['max_depth'] = j
