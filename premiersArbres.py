@@ -95,6 +95,10 @@ def getStat_rapport(role, stat):
     print(role, stat)
     # ajouter une colonne stat'_rapport' dans stats
     stats[stat + '_rapport'] = stats['blue' + role + stat] / stats['red' + role + stat]
+    # retirer les NaN
+    stats[stat + '_rapport'] = stats[stat + '_rapport'].fillna(0)
+    # retirer les inf
+    stats[stat + '_rapport'] = stats[stat + '_rapport'].replace(np.inf, 0)
     return [stat + '_rapport']
 
 def prepare_donnee(func: callable, *args):
@@ -239,13 +243,13 @@ y_test = pickle.load(open('full_y_test_difference.pkl', 'rb'))
 clf = train(X_train, y_train, 2, 3) # prends ~ 3min
 pickle.dump(clf, open('full_tree_difference.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
 
-# clf = pickle.load(open('full_tree.pkl', 'rb'))
-# tree.plot_tree(clf)
-# print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
-# plt.show()
+clf = pickle.load(open('full_tree_difference.pkl', 'rb'))
+tree.plot_tree(clf)
+print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
+plt.show()
 
-# params = bestParamsplot(X_train, X_test, y_train, y_test, range(1, 50), range(1, 50))
-# print(params)
+params = bestParamsplot(X_train, X_test, y_train, y_test, range(1, 50, 2), range(1, 50, 2))
+print(params)
 
 # print(matches['bluetop'])
 # clf = tree.DecisionTreeClassifier(min_samples_split=100, max_depth=5)
