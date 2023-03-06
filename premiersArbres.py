@@ -81,7 +81,7 @@ def getStat_difference(role, stat):
     print(role, stat)
     # ajouter une colonne stat'_diff' dans stats
     stats[stat + '_diff'] = stats['blue' + role + stat] - stats['red' + role + stat]
-    return stats[stat + '_diff']
+    return [stats[stat + '_diff']]
 
 def getStat_rapport(role, stat):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
@@ -95,7 +95,7 @@ def getStat_rapport(role, stat):
     print(role, stat)
     # ajouter une colonne stat'_rapport' dans stats
     stats[stat + '_rapport'] = stats['blue' + role + stat] / stats['red' + role + stat]
-    return stats[stat + '_rapport']
+    return [stats[stat + '_rapport']]
 
 def train_test_split(func: callable, *args, test_size: float = 0.2):
     """Cette fonction permet de diviser les données en un ensemble d'entraînement et un ensemble de test
@@ -203,13 +203,13 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
 # print(params)
 
 # # On va essayer avec toutes les stats (ça va probablement être long (effectivement, ça a mis 02h 07min... les meilleurs paramètres sont min_samples_split = 2 max_depth = 5))
-stats = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
+stats_names = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
 roles = ('top', 'jungle', 'mid', 'adc', 'support')
 # # params = bestParamsplot(getStat_red_blue, *[(pos, stat) for pos in roles], test_size=0.2)
 # # print(params)
 
 # On va sauvegarder le meilleur arbre et le dataset pour ne pas les générer à chaque fois
-X_train, X_test, y_train, y_test = train_test_split(getStat_rapport, *[(pos, stats) for pos in roles], test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(getStat_rapport, *[(pos, stats_names) for pos in roles], test_size=0.2)
 pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
 pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
 pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
