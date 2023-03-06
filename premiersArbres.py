@@ -149,10 +149,12 @@ def getAccuracy(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
     : return accuracy: la précision du classifieur
     """
     accuracy = 0
-    for i in range(len(X_test)):
-        if clf.predict([X_test[i]]) == y_test.values[i]:
+    y_pred = clf.predict(X_test)
+    for i in range(len(y_pred)):
+        if y_pred[i] == y_test.iloc[i]:
             accuracy += 1
-    return accuracy/len(X_test)
+    accuracy /= len(y_pred)
+    return accuracy
 
 def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int=None):
     """Cette fonction permet d'entraîner un classifieur
@@ -229,11 +231,11 @@ roles = ('top', 'jungle', 'mid', 'adc', 'support')
 # # print(params)
 
 # On va sauvegarder le meilleur arbre et le dataset pour ne pas les générer à chaque fois
-# X_train, X_test, y_train, y_test = train_test_split(getStat_rapport, *[(pos, stats_names) for pos in roles], test_size=0.2)
-# pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
-# pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
-# pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
-# pickle.dump(y_test, open('full_y_test_difference.pkl', 'wb'))
+X_train, X_test, y_train, y_test = train_test_split(getStat_rapport, *[(pos, stats_names) for pos in roles], test_size=0.2)
+pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
+pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
+pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
+pickle.dump(y_test, open('full_y_test_difference.pkl', 'wb'))
 
 X_train = pickle.load(open('full_X_train_difference.pkl', 'rb'))
 X_test = pickle.load(open('full_X_test_difference.pkl', 'rb'))
