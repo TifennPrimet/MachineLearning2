@@ -52,7 +52,7 @@ y_test = pickle.load(open('pkl_lea/test2_y_test.pkl', 'rb'))
 # pickle.dump(arbre, open('pkl_lea/test2_tree.pkl', 'wb'))
 arbre = pickle.load(open('pkl_lea/test2_tree.pkl', 'rb'))
 tree.plot_tree(arbre)
-# On calcule la précision (52.6329578202777)
+# On calcule la précision (52.09643605870021)
 acc = getAccuracy(arbre,X_test,y_test)
 print('La precision est de ', acc*100, '% pour le test 2.')
 
@@ -80,7 +80,7 @@ y_test = pickle.load(open('pkl_lea/test3_y_test.pkl', 'rb'))
 # pickle.dump(arbre, open('pkl_lea/test3_tree.pkl', 'wb'))
 arbre = pickle.load(open('pkl_lea/test3_tree.pkl', 'rb'))
 tree.plot_tree(arbre)
-# On calcule la précision (0.5316561844863732)
+# On calcule la précision (54.17190775681342)
 acc = getAccuracy(arbre,X_test,y_test)
 print('La precision est de ', acc*100, '% pour le test 3.')
 
@@ -89,32 +89,82 @@ print('La precision est de ', acc*100, '% pour le test 3.')
 # On entraine 80% des données
 
 # On sépare le jeu de données
-X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)), test_size=0.2)
+# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)), test_size=0.2)
 # On enregistre la séparation
-pickle.dump(X_train, open('pkl_lea/test3_X_train.pkl', 'wb'))
-pickle.dump(X_test, open('pkl_lea/test3_X_test.pkl', 'wb'))
-pickle.dump(y_train, open('pkl_lea/test3_y_train.pkl', 'wb'))
-pickle.dump(y_test, open('pkl_lea/test3_y_test.pkl', 'wb'))
+# pickle.dump(X_train, open('pkl_lea/test4_X_train.pkl', 'wb'))
+# pickle.dump(X_test, open('pkl_lea/test4_X_test.pkl', 'wb'))
+# pickle.dump(y_train, open('pkl_lea/test4_y_train.pkl', 'wb'))
+# pickle.dump(y_test, open('pkl_lea/test4_y_test.pkl', 'wb'))
 
-X_train = pickle.load(open('pkl_lea/test3_X_train.pkl', 'rb'))
-X_test = pickle.load(open('pkl_lea/test3_X_test.pkl', 'rb'))
-y_train = pickle.load(open('pkl_lea/test3_y_train.pkl', 'rb'))
-y_test = pickle.load(open('pkl_lea/test3_y_test.pkl', 'rb'))
+X_train = pickle.load(open('pkl_lea/test4_X_train.pkl', 'rb'))
+X_test = pickle.load(open('pkl_lea/test4_X_test.pkl', 'rb'))
+y_train = pickle.load(open('pkl_lea/test4_y_train.pkl', 'rb'))
+y_test = pickle.load(open('pkl_lea/test4_y_test.pkl', 'rb'))
 
 # On calcule les meilleurs paramètres
-best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 2 et depth = 2
+# best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 2 et depth = 14
 # On fait l'arbre
-# arbre = train(X_train,y_train,3,14)
-# pickle.dump(arbre, open('pkl_lea/test3_tree.pkl', 'wb'))
+# arbre = train(X_train,y_train,2,14)
+# pickle.dump(arbre, open('pkl_lea/test4_tree.pkl', 'wb'))
+arbre = pickle.load(open('pkl_lea/test4_tree.pkl', 'rb'))
+tree.plot_tree(arbre)
+# On calcule la précision (54.19287211740041)
+acc = getAccuracy(arbre,X_test,y_test)
+print('La precision est de ', acc*100, '% pour le test 4.')
 
-# # Test 5 
-# # On regarde les tags dans chaque role
-# # On entraine 50% des donnees
+# Test 5 
+# On regarde les tags dans chaque role
+# On entraine 50% des donnees
 
-# # On sépare le jeu de données
-# # X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)), test_size=0.5)
-# # On enregistre la séparation
-# # pickle.dump(X_train, open('pkl_lea/test3_X_train.pkl', 'wb'))
-# # pickle.dump(X_test, open('pkl_lea/test3_X_test.pkl', 'wb'))
-# # pickle.dump(y_train, open('pkl_lea/test3_y_train.pkl', 'wb'))
-# # pickle.dump(y_test, open('pkl_lea/test3_y_test.pkl', 'wb'))
+# On sépare le jeu de données
+# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)), test_size=0.5)
+# On enregistre la séparation
+# pickle.dump(X_train, open('pkl_lea/test5_X_train.pkl', 'wb'))
+# pickle.dump(X_test, open('pkl_lea/test5_X_test.pkl', 'wb'))
+# pickle.dump(y_train, open('pkl_lea/test5_y_train.pkl', 'wb'))
+# pickle.dump(y_test, open('pkl_lea/test5_y_test.pkl', 'wb'))
+
+X_train = pickle.load(open('pkl_lea/test5_X_train.pkl', 'rb'))
+X_test = pickle.load(open('pkl_lea/test5_X_test.pkl', 'rb'))
+y_train = pickle.load(open('pkl_lea/test5_y_train.pkl', 'rb'))
+y_test = pickle.load(open('pkl_lea/test5_y_test.pkl', 'rb'))
+
+# On calcule les meilleurs paramètres
+# best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 20 et depth = 8
+# On fait l'arbre
+# arbre = train(X_train,y_train,20,8)
+# pickle.dump(arbre, open('pkl_lea/test5_tree.pkl', 'wb'))
+arbre = pickle.load(open('pkl_lea/test5_tree.pkl', 'rb'))
+tree.plot_tree(arbre)
+# On calcule la précision (0.5316561844863732)
+acc = getAccuracy(arbre,X_test,y_test)
+print('La precision est de ', acc*100, '% pour le test 5.')
+
+
+# Test 6
+# On regarde les tags dans chaque role
+# On entraine 80% des donnees
+
+# On sépare le jeu de données
+# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)), test_size=0.8)
+# On enregistre la séparation
+# pickle.dump(X_train, open('pkl_lea/test6_X_train.pkl', 'wb'))
+# pickle.dump(X_test, open('pkl_lea/test6_X_test.pkl', 'wb'))
+# pickle.dump(y_train, open('pkl_lea/test6_y_train.pkl', 'wb'))
+# pickle.dump(y_test, open('pkl_lea/test6_y_test.pkl', 'wb'))
+
+X_train = pickle.load(open('pkl_lea/test6_X_train.pkl', 'rb'))
+X_test = pickle.load(open('pkl_lea/test6_X_test.pkl', 'rb'))
+y_train = pickle.load(open('pkl_lea/test6_y_train.pkl', 'rb'))
+y_test = pickle.load(open('pkl_lea/test6_y_test.pkl', 'rb'))
+
+# On calcule les meilleurs paramètres
+# best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 14 et depth = 5
+# On fait l'arbre
+# arbre = train(X_train,y_train,14,5)
+# pickle.dump(arbre, open('pkl_lea/test6_tree.pkl', 'wb'))
+arbre = pickle.load(open('pkl_lea/test6_tree.pkl', 'rb'))
+tree.plot_tree(arbre)
+# On calcule la précision (0.5316561844863732)
+acc = getAccuracy(arbre,X_test,y_test)
+print('La precision est de ', acc*100, '% pour le test 6.')
