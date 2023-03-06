@@ -10,6 +10,11 @@ if True: # Lecture des données
     # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
     champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
     matches = pd.read_csv('matches.csv', index_col=None)
+    print(champion.head())
+    champion.drop("crit", axis=1, inplace=True)
+    champion.drop("critperlevel", axis=1, inplace=True)
+    print(champion.head())
+
     print( " I got the datas ! ")
 
 # Helper functions
@@ -126,6 +131,7 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
     accuracy = []
     for i in min_samples_split:
+        print(bestParams)
         accuracy.append([])
         for j in max_depth:
             clf = train(X_train, y_train, i, j)
@@ -165,7 +171,7 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
 # print(params)
 
 # # On va essayer avec toutes les stats (ça va probablement être long (effectivement, ça a mis 02h 07min... les meilleurs paramètres sont min_samples_split = 2 max_depth = 5))
-stats = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'crit', 'critperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
+stats = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
 roles = ('top', 'jungle', 'mid', 'adc', 'support')
 # # params = bestParamsplot(getStat_red_blue, *[(pos, stat) for pos in roles], test_size=0.2)
 # # print(params)
