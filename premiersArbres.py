@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from sklearn import tree
+from sklearn.utils import shuffle
 
 if 1==2: # Lecture des données
     champion = pd.read_csv('champions.csv', index_col=None)
@@ -118,7 +119,7 @@ def prepare_donnee(func: callable, *args):
     y = stats['result']
     return X, y
 
-def train_test_split(func: callable, *args, test_size: float = 0.2):
+def train_test_split(X, y, test_size: float = 0.2):
     """Cette fonction permet de diviser les données en un ensemble d'entraînement et un ensemble de test
 
     : param  func: la fonction qui permet de récupérer les données
@@ -130,13 +131,13 @@ def train_test_split(func: callable, *args, test_size: float = 0.2):
     : return y_train: les labels d'entraînement
     : return y_test: les labels de test
     """
-    X, y = prepare_donnee(func, *args)
-    n = len(X)
-    cut = int((1-test_size)*n)
-    X_train = X[:cut]
-    X_test = X[cut:]
-    y_train = y[:cut]
-    y_test = y[cut:]
+    # Shuffle the data
+    X, y = shuffle(X, y)
+    # Split the data
+    X_train = X[:int(len(X) * (1 - test_size))]
+    X_test = X[int(len(X) * (1 - test_size)):]
+    y_train = y[:int(len(y) * (1 - test_size))]
+    y_test = y[int(len(y) * (1 - test_size)):]
     return X_train, X_test, y_train, y_test
 
 def getAccuracy(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
@@ -204,7 +205,8 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     return bestParams
 
 # # Exemple d'utilisation des fonctions
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp',)), test_size=0.2)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp',)))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # clf = train(X_train, y_train, 100, 5)
 # print(getAccuracy(clf, X_test, y_test)) # 0.5125786163522013, pas super mais mieux que rien
 
@@ -217,7 +219,8 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
 # print(params)
 
 # # Les hps seul ne sont pas très efficaces, on peut essayer avec les hps et les mps
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp', 'mp')), test_size=0.2)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp', 'mp')))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # clf = train(X_train, y_train, 100, 5)
 # print(getAccuracy(clf, X_test, y_test)) # 0.5157232704402516, un peu mieux, il ne reste plus qu'à mettre plus de paramètres
 
@@ -231,7 +234,8 @@ roles = ('top', 'jungle', 'mid', 'adc', 'support')
 # # print(params)
 
 # On va sauvegarder le meilleur arbre et le dataset pour ne pas les générer à chaque fois
-X_train, X_test, y_train, y_test = train_test_split(getStat_rapport, *[(pos, stats_names) for pos in roles], test_size=0.2)
+X, y = prepare_donnee(getStat_red_blue, *[(pos, stats_names) for pos in roles])
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
 pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
 pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
