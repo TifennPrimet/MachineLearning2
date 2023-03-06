@@ -81,62 +81,7 @@ def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int
     clf = clf.fit(X_train, y_train)
     return clf
 
-def bestParams(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[2, 5, 10, 20, 50, 100], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
-    """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur
-
-    : param  X_train: les données d'entraînement
-    : param  X_test: les données de test
-    : param  y_train: les labels d'entraînement
-    : param  y_test: les labels de test
-    : param  min_samples_split: la liste des valeurs de min_samples_split à tester
-    : param  max_depth: la liste des valeurs de max_depth à tester
-
-    : return bestParams: les meilleurs paramètres
-    """
-    bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
-    for i in min_samples_split:
-        for j in max_depth:
-            clf = train(X_train, y_train, i, j)
-            accuracy = getAccuracy(clf, X_test, y_test)
-            # print('min_samples_split =', i, 'max_depth =', j, 'accuracy =', accuracy)
-            if accuracy > bestParams['accuracy']:
-                bestParams['min_samples_split'] = i
-                bestParams['max_depth'] = j
-                bestParams['accuracy'] = accuracy
-    return bestParams
-
-def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[2, 5, 10, 20, 50, 100], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
-    """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et de tracer la précision en fonction de ces paramètres
-
-    : param  X_train: les données d'entraînement
-    : param  X_test: les données de test
-    : param  y_train: les labels d'entraînement
-    : param  y_test: les labels de test
-    : param  min_samples_split: la liste des valeurs de min_samples_split à tester
-    : param  max_depth: la liste des valeurs de max_depth à tester
-
-    : return bestParams: les meilleurs paramètres
-    """
-    bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
-    accuracy = []
-    for i in min_samples_split:
-        accuracy.append([])
-        for j in max_depth:
-            clf = train(X_train, y_train, i, j)
-            accuracy[-1].append(getAccuracy(clf, X_test, y_test))
-            # print('min_samples_split =', i, 'max_depth =', j, 'accuracy =', accuracy[-1][-1])
-            if accuracy[-1][-1] > bestParams['accuracy']:
-                bestParams['min_samples_split'] = i
-                bestParams['max_depth'] = j
-                bestParams['accuracy'] = accuracy[-1][-1]
-    plt.figure("Accuracy")
-    sns.heatmap(accuracy, xticklabels=max_depth, yticklabels=min_samples_split)
-    plt.xlabel('max_depth')
-    plt.ylabel('min_samples_split')
-    plt.show()
-    return bestParams
-
-def bestParamsplot2(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[1, 2, 5, 10, 20, 50, 100, 1000], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
+def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[1, 2, 5, 10, 20, 50, 100, 1000], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
     """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et de tracer la précision en fonction de ces paramètres
 
     : param  X_train: les données d'entraînement
@@ -174,7 +119,7 @@ def bestParamsplot2(X_train: list, X_test: list, y_train: list, y_test: list, mi
 # print(getAccuracy(clf, X_test, y_test)) # 0.5125786163522013, pas super mais mieux que rien
 
 # # bestParams automatise la recherche des meilleurs paramètres (min_samples_split et max_depth)
-# params = bestParams(getStat, ('top', ('hp',)), test_size=0.2)
+# params = bestParamsplot(getStat, ('top', ('hp',)), test_size=0.2)
 # print(params)
 
 # # bestParamsplot affiche aussi une heatmap des résultats
@@ -215,7 +160,7 @@ tree.plot_tree(clf)
 print(getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
 plt.show()
 
-params = bestParamsplot2(X_train, X_test, y_train, y_test, range(1, 50), range(1, 50))
+params = bestParamsplot(X_train, X_test, y_train, y_test, range(1, 50), range(1, 50))
 print(params)
 
 # print(matches['bluetop'])
