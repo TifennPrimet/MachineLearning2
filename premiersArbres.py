@@ -57,7 +57,7 @@ def getStat(color, role, stat):
 
     : return stats: une liste contenant la statistique pour chaque champion
     """
-    return stats[color + role + stat]
+    return [color + role + stat]
 
 def getStat_red_blue(role, stat):
     """Cette fonction permet de récupérer les statistiques des champions qui ont joué le rôle donné pour les deux équipes
@@ -67,7 +67,7 @@ def getStat_red_blue(role, stat):
 
     : return stats: deux listes contenant la statistique pour chaque champion
     """
-    return [getStat('blue', role, stat), getStat('red', role, stat)]
+    return ['blue' + role + stat, 'red' + role + stat]
 
 def getStat_difference(role, stat):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
@@ -81,7 +81,7 @@ def getStat_difference(role, stat):
     print(role, stat)
     # ajouter une colonne stat'_diff' dans stats
     stats[stat + '_diff'] = stats['blue' + role + stat] - stats['red' + role + stat]
-    return [stats[stat + '_diff']]
+    return [stat + '_diff']
 
 def getStat_rapport(role, stat):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
@@ -95,7 +95,24 @@ def getStat_rapport(role, stat):
     print(role, stat)
     # ajouter une colonne stat'_rapport' dans stats
     stats[stat + '_rapport'] = stats['blue' + role + stat] / stats['red' + role + stat]
-    return [stats[stat + '_rapport']]
+    return [stat + '_rapport']
+
+def prepare_donnee(func: callable, *args):
+    """Cette fonction permet de préparer les données pour l'entraînement
+
+    : param  func: la fonction qui permet de récupérer les données
+    : param  args: les arguments de func
+
+    : return X: les données
+    : return y: les labels
+    """
+    colonnes = []
+    for arg in args:
+        for ar in arg[1]:
+            colonnes += func(arg[0], ar)
+    X = stats[[col for col in colonnes]]
+    y = stats['result']
+    return X, y
 
 def train_test_split(func: callable, *args, test_size: float = 0.2):
     """Cette fonction permet de diviser les données en un ensemble d'entraînement et un ensemble de test
@@ -109,8 +126,7 @@ def train_test_split(func: callable, *args, test_size: float = 0.2):
     : return y_train: les labels d'entraînement
     : return y_test: les labels de test
     """
-    X = [list(i) for i in zip(*sum([sum([func(arg[0], ar) for ar in arg[1]], []) for arg in args], []))] # Si ça marche, pas touche
-    y = stats['result']
+    X, y = prepare_donnee(func, *args)
     n = len(X)
     cut = int((1-test_size)*n)
     X_train = X[:cut]
@@ -209,19 +225,19 @@ roles = ('top', 'jungle', 'mid', 'adc', 'support')
 # # print(params)
 
 # On va sauvegarder le meilleur arbre et le dataset pour ne pas les générer à chaque fois
-X_train, X_test, y_train, y_test = train_test_split(getStat_rapport, *[(pos, stats_names) for pos in roles], test_size=0.2)
-pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
-pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
-pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
-pickle.dump(y_test, open('full_y_test_difference.pkl', 'wb'))
+# X_train, X_test, y_train, y_test = train_test_split(getStat_rapport, *[(pos, stats_names) for pos in roles], test_size=0.2)
+# pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
+# pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
+# pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
+# pickle.dump(y_test, open('full_y_test_difference.pkl', 'wb'))
 
-# X_train = pickle.load(open('full_X_train_difference.pkl', 'rb'))
-# X_test = pickle.load(open('full_X_test_difference.pkl', 'rb'))
-# y_train = pickle.load(open('full_y_train_difference.pkl', 'rb'))
-# y_test = pickle.load(open('full_y_test_difference.pkl', 'rb'))
+X_train = pickle.load(open('full_X_train_difference.pkl', 'rb'))
+X_test = pickle.load(open('full_X_test_difference.pkl', 'rb'))
+y_train = pickle.load(open('full_y_train_difference.pkl', 'rb'))
+y_test = pickle.load(open('full_y_test_difference.pkl', 'rb'))
 
-# clf = train(X_train, y_train, 2, 3) # prends ~ 3min
-# pickle.dump(clf, open('full_tree_difference.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
+clf = train(X_train, y_train, 2, 3) # prends ~ 3min
+pickle.dump(clf, open('full_tree_difference.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
 
 # clf = pickle.load(open('full_tree.pkl', 'rb'))
 # tree.plot_tree(clf)
