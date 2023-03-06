@@ -5,12 +5,19 @@ import numpy as np
 import seaborn as sns
 from sklearn import tree
 
-if True: # Lecture des données
+if 1==2: # Lecture des données
     champion = pd.read_csv('champions.csv', index_col=None)
     # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
     champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
     matches = pd.read_csv('matches.csv', index_col=None)
+    print(champion.head())
+    champion.drop("crit", axis=1, inplace=True)
+    champion.drop("critperlevel", axis=1, inplace=True)
+    print(champion.head())
     print( " I got the datas ! ")
+
+if True:
+    stats = pd.read_csv('full_stats.csv', index_col=None)
 
 # Helper functions
 def getStat(color, role, stat):
@@ -25,10 +32,32 @@ def getStat(color, role, stat):
     stats = []
     for champ in matches[color + role]:
         if stat in ['Fighter', 'Mage', 'Marksman', 'Support', 'Tank', 'Assassin']:
-            stats.append(1 if stat in champion[champion['id'] == champ]['tags'].values[0] else 0)
+            # print(champion[champion['id'] == champ]['tags'].values[0])
+            
+            stats.append(1 if f"'{stat}'" in champion[champion['id'] == champ]['tags'].values[0] else 0)
         else:
             stats.append(champion[champion['id'] == champ][stat].values[0])
     return stats
+
+if 0:
+    stats = pd.read_csv('full_stats.csv', index_col=None)
+    for color in ['blue', 'red']:
+        for role in ['top', 'jungle', 'mid', 'adc', 'support']:
+            for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
+                stats[color + role + stat] = getStat(color, role, stat)
+    stats['result'] = matches['result']
+    stats.to_csv('full_stats.csv', index=False)
+
+def getStat(color, role, stat):
+    """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
+
+    : param color: la couleur de l'équipe
+    : param role: le rôle du champion
+    : param stat: la statistique à récupérer
+
+    : return stats: une liste contenant la statistique pour chaque champion
+    """
+    return stats[color + role + stat]
 
 def getStat_red_blue(role, stat):
     """Cette fonction permet de récupérer les statistiques des champions qui ont joué le rôle donné pour les deux équipes
@@ -38,12 +67,7 @@ def getStat_red_blue(role, stat):
 
     : return stats: deux listes contenant la statistique pour chaque champion
     """
-    #on veut renvoyer la différence entre les stats des deux équipes pour un role donné
-    print(role, stat)
-    bleu = getStat('blue', role, stat)
-    rouge = getStat('red', role, stat)
-    stats = [bleu, rouge]
-    return stats
+    return [getStat('blue', role, stat), getStat('red', role, stat)]
 
 def getStat_difference(role, stat):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
@@ -126,6 +150,7 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     bestParams = {'min_samples_split': 0, 'max_depth': 0, 'accuracy': 0}
     accuracy = []
     for i in min_samples_split:
+        print(bestParams)
         accuracy.append([])
         for j in max_depth:
             clf = train(X_train, y_train, i, j)
@@ -165,34 +190,34 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
 # print(params)
 
 # # On va essayer avec toutes les stats (ça va probablement être long (effectivement, ça a mis 02h 07min... les meilleurs paramètres sont min_samples_split = 2 max_depth = 5))
-stats = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'crit', 'critperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
-roles = ('top', 'jungle', 'mid', 'adc', 'support')
+# stats = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
+# roles = ('top', 'jungle', 'mid', 'adc', 'support')
 # # params = bestParamsplot(getStat_red_blue, *[(pos, stat) for pos in roles], test_size=0.2)
 # # print(params)
 
 # On va sauvegarder le meilleur arbre et le dataset pour ne pas les générer à chaque fois
-X_train, X_test, y_train, y_test = train_test_split(getStat_difference, *[(pos, stats) for pos in roles], test_size=0.2)
-print(X_test)
-pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
-pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
-pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
-pickle.dump(y_test, open('full_y_test_difference.pkl', 'wb'))
+# X_train, X_test, y_train, y_test = train_test_split(getStat_difference, *[(pos, stats) for pos in roles], test_size=0.2)
+# print(X_test)
+# pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
+# pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
+# pickle.dump(y_train, open('full_y_train_difference.pkl', 'wb'))
+# pickle.dump(y_test, open('full_y_test_difference.pkl', 'wb'))
 
-X_train = pickle.load(open('full_X_train_difference.pkl', 'rb'))
-X_test = pickle.load(open('full_X_test_difference.pkl', 'rb'))
-y_train = pickle.load(open('full_y_train_difference.pkl', 'rb'))
-y_test = pickle.load(open('full_y_test_difference.pkl', 'rb'))
+# X_train = pickle.load(open('full_X_train_difference.pkl', 'rb'))
+# X_test = pickle.load(open('full_X_test_difference.pkl', 'rb'))
+# y_train = pickle.load(open('full_y_train_difference.pkl', 'rb'))
+# y_test = pickle.load(open('full_y_test_difference.pkl', 'rb'))
 
-clf = train(X_train, y_train, 2, 3) # prends ~ 3min
-pickle.dump(clf, open('full_tree_difference.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
+# clf = train(X_train, y_train, 2, 3) # prends ~ 3min
+# pickle.dump(clf, open('full_tree_difference.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
 
-clf = pickle.load(open('full_tree.pkl', 'rb'))
-tree.plot_tree(clf)
-print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
-plt.show()
+# clf = pickle.load(open('full_tree.pkl', 'rb'))
+# tree.plot_tree(clf)
+# print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
+# plt.show()
 
-params = bestParamsplot(X_train, X_test, y_train, y_test, range(1, 50), range(1, 50))
-print(params)
+# params = bestParamsplot(X_train, X_test, y_train, y_test, range(1, 50), range(1, 50))
+# print(params)
 
 # print(matches['bluetop'])
 # clf = tree.DecisionTreeClassifier(min_samples_split=100, max_depth=5)
