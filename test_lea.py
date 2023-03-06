@@ -5,7 +5,8 @@ from premiersArbres import *
 # On entraine 50% du jeu de données
 
 # On sépare le jeu de données
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp','armor','attack')), test_size=0.5)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test1_X_train.pkl', 'wb'))
 # pickle.dump(X_test, open('pkl_lea/test1_X_test.pkl', 'wb'))
@@ -33,7 +34,8 @@ print('La precision est de ', acc*100, '% pour le test 1.')
 # Cette fois ci, on entraine 80% du jeu de données 
 
 # On sépare le jeu de données
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp','armor','attack')), test_size=0.2)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test2_X_train.pkl', 'wb'))
 # pickle.dump(X_test, open('pkl_lea/test2_X_test.pkl', 'wb'))
@@ -61,7 +63,8 @@ print('La precision est de ', acc*100, '% pour le test 2.')
 # On entraine 50% des données
 
 # On sépare le jeu de données
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)), test_size=0.5)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test3_X_train.pkl', 'wb'))
 # pickle.dump(X_test, open('pkl_lea/test3_X_test.pkl', 'wb'))
@@ -89,7 +92,8 @@ print('La precision est de ', acc*100, '% pour le test 3.')
 # On entraine 80% des données
 
 # On sépare le jeu de données
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)), test_size=0.2)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test4_X_train.pkl', 'wb'))
 # pickle.dump(X_test, open('pkl_lea/test4_X_test.pkl', 'wb'))
@@ -117,7 +121,8 @@ print('La precision est de ', acc*100, '% pour le test 4.')
 # On entraine 50% des donnees
 
 # On sépare le jeu de données
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)), test_size=0.5)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test5_X_train.pkl', 'wb'))
 # pickle.dump(X_test, open('pkl_lea/test5_X_test.pkl', 'wb'))
@@ -146,7 +151,8 @@ print('La precision est de ', acc*100, '% pour le test 5.')
 # On entraine 80% des donnees
 
 # On sépare le jeu de données
-# X_train, X_test, y_train, y_test = train_test_split(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)), test_size=0.8)
+# X, y = prepare_donnee(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)))
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.8)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test6_X_train.pkl', 'wb'))
 # pickle.dump(X_test, open('pkl_lea/test6_X_test.pkl', 'wb'))
