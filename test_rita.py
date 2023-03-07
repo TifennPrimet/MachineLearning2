@@ -24,7 +24,7 @@ y_test = pickle.load(open('pkl_rita/test4_y_test.pkl', 'rb'))
 #pickle.dump(arbre, open('pkl_rita/test4_tree.pkl', 'wb'))
 arbre = pickle.load(open('pkl_rita/test4_tree.pkl', 'rb'))
 tree.plot_tree(arbre,feature_names=X.columns,class_names=['red','blue'])
-plt.show()
+#plt.show()
 # On calcule la précision (0.5618448637316562)
 acc = getAccuracy(arbre,X_test,y_test)
 print('La precision est de ', acc*100, '% pour le test 4.')
@@ -50,13 +50,20 @@ y_test = pickle.load(open('pkl_rita/test5_y_test.pkl', 'rb'))
 #best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 60), range(2, 60)) # donne samples = 2 et depth = 2
 #print('Le meilleur paramètre =', best)
 # On fait l'arbre
-#arbre = train(X_train,y_train,7,26) # samples = 7 et depth = 26
-#pickle.dump(arbre, open('pkl_rita/test5_tree.pkl', 'wb'))
-arbre = pickle.load(open('pkl_rita/test5_tree.pkl', 'rb'))
+arbre_gini = train(X_train,y_train,7,26,'gini') # samples = 7 et depth = 26
+pickle.dump(arbre_gini, open('pkl_rita/test5_tree.pkl', 'wb'))
+arbre_gini = pickle.load(open('pkl_rita/test5_tree.pkl', 'rb'))
 tree.plot_tree(arbre,feature_names=X.columns,class_names=['red','blue'])
-plt.show()
+arbre_entropy = train(X_train,y_train,7,26,'entropy') # samples = 7 et depth = 26
+pickle.dump(arbre_entropy, open('pkl_rita/test5_tree.pkl', 'wb'))
+arbre_entropy = pickle.load(open('pkl_rita/test5_tree.pkl', 'rb'))
+tree.plot_tree(arbre_entropy,feature_names=X.columns,class_names=['red','blue'])
+#plt.show()
 # On calcule la précision (0.5461215932914046)
-acc = getAccuracy(arbre,X_test,y_test)
-print('La precision est de ', acc*100, '% pour le test 5.')
-# La precision est de  54.61215932914046 % pour le test 5.
+acc_gini = getAccuracy(arbre_gini,X_test,y_test)
+acc_entropy = getAccuracy(arbre_entropy,X_test,y_test)
+print('La precision avec gini est de ', acc_gini*100, '% pour le test 5.')
+print('La precision avec entropy est de ', acc_entropy*100, '% pour le test 5.')
+# La precision avec gini est de 54.29769392033543 % pour le test 5 avec gini.
+# La precision avec entropy est de 52.30607966457023 % pour le test 5 avec entropy.
 
