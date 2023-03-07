@@ -91,17 +91,30 @@ def getStat_difference_ratio_victoire(nimportequoi, nimportequoi2):
     """
     On renvoie la liste des colonnes qui nous interessent pour la difference de ratio de victoire
     """
-    return ['diff_ratio_victoire']
+    return ["diff_ratio_victoire"]
 
 if __name__ == '__main__' :
-    ajout_full_stat('full_stats_tifenn.csv',matches)
+    ajout_full_stat('full_stats.csv',matches)
     # on lit les donnees de full_stats.csv
-    stats = pd.read_csv('full_stats_tifenn.csv', index_col=None)
+    stats = pd.read_csv('full_stats.csv', index_col=None)
     print(stats.head())
+
+    # prend juste les ratio de victoire et la difference de ratio de victoire
     data, result = prepare_donnee(getStat_ratio_victoire, ('blue', ('nimportequoi',)), ('red', ('nimportequoi',)))
-    data2, result2 = prepare_donnee(getStat_difference_ratio_victoire, ('nimportequoi', ('nimportequoi2',)))
     X_train, X_test, y_train, y_test = train_test_split(data, result, test_size=0.2)
     clf = train(X_train, y_train, 2, 3) # prends ~ 3min
+    fig, ax = plt.subplots()
     tree.plot_tree(clf, feature_names = data.columns, class_names=['red', 'blue'])
+    plt.savefig('Tifenn/tree_ratio_victoire.pgf')
     print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
+    plt.show()
+
+    # prend juste la difference de ratio de victoire
+    data2, result2 = prepare_donnee(getStat_difference_ratio_victoire, ('nimportequoi', ('nimportequoi2',)))
+    X_train2, X_test2, y_train2, y_test2 = train_test_split(data2, result2, test_size=0.2)
+    clf2 = train(X_train2, y_train2, 2, 3) # prends ~ 3min
+    fig, ax = plt.subplots()
+    tree.plot_tree(clf2, feature_names = data.columns, class_names=['red', 'blue'])
+    plt.savefig('Tifenn/tree_ratio_victoire_par_equipe.pgf')
+    print("accuracy = ", getAccuracy(clf2, X_test2, y_test2)) # 0.5293501048218029 avec 2 3
     plt.show()

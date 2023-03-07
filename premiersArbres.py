@@ -42,14 +42,6 @@ def getStat(color, role, stat):
             stats.append(champion[champion['id'] == champ][stat].values[0])
     return stats
 
-if 0:
-    stats = pd.read_csv('full_stats.csv', index_col=None)
-    for color in ['blue', 'red']:
-        for role in ['top', 'jungle', 'mid', 'adc', 'support']:
-            for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
-                stats[color + role + stat] = getStat(color, role, stat)
-    stats['result'] = matches['result']
-    stats.to_csv('full_stats.csv', index=False)
 
 def getStat(color, role, stat):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
@@ -210,19 +202,20 @@ def traceMatriceConf(clf: tree.DecisionTreeClassifier, X_test: list, y_test: lis
     ax.set_yticklabels(['red','blue'])
     plt.show()
 
-def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int=None):
+def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int=None, crit: str='gini'):
     """Cette fonction permet d'entraîner un classifieur
 
     : param  X_train: les données d'entraînement
     : param  y_train: les labels d'entraînement
     : param  min_samples_split: le nombre minimum d'échantillons requis pour diviser un noeud
     : param  max_depth: la profondeur maximale de l'arbre
+    : param crit: la fonction de mesure de la qualité de la séparation (gini ou entropy)
 
     : return clf: le classifieur
     """
-    clf = tree.DecisionTreeClassifier(min_samples_split=min_samples_split, max_depth=max_depth)
+    clf = tree.DecisionTreeClassifier(min_samples_split=min_samples_split, max_depth=max_depth, criterion=crit)
     clf = clf.fit(X_train, y_train)
-    return clf
+    return clf  # criterion='gini'est par défaut (gini ou entropy)
 
 def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[1, 2, 5, 10, 20, 50, 100, 1000], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
     """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et de tracer la précision en fonction de ces paramètres
@@ -258,6 +251,15 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     return bestParams
 
 if __name__ == '__main__' :
+
+    if 0:
+        stats = pd.read_csv('full_stats.csv', index_col=None)
+        for color in ['blue', 'red']:
+            for role in ['top', 'jungle', 'mid', 'adc', 'support']:
+                for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
+                    stats[color + role + stat] = getStat(color, role, stat)
+        stats['result'] = matches['result']
+        stats.to_csv('full_stats.csv', index=False)
     # # Exemple d'utilisation des fonctions
     # X, y = prepare_donnee(getStat_red_blue, ('top', ('hp',)))
     # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
