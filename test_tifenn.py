@@ -57,7 +57,7 @@ def ajoute_ratio_victoire(data):
     """
     Ajoute une colonne au dataframe data avec le ratio de victoire de chaque equipe
     """
-    victoire = ratio_victoire(cree_list_leagues(data))
+    victoire = pd.read_csv('data_victoire.csv', index_col=None)
     # On ajoute le ratio de victoire de l'equipe bleu et de l'equipe bleu dans le dataframe data
     data['ratio_victoire_blueteam'] = 0
     data['ratio_victoire_redteam'] = 0
@@ -68,6 +68,12 @@ def ajoute_ratio_victoire(data):
     # On ajoute la différence de ratio de victoire entre les deux equipes
     data['diff_ratio_victoire'] = data['ratio_victoire_blueteam'] - data['ratio_victoire_redteam']
     return data
+
+def sauve_data_victoire(data):
+    """
+    Sauvegarde le dataframe data dans un fichier csv
+    """
+    data.to_csv('data_victoire.csv', index=False)
 
 def ajout_full_stat( name,data):
     """ 
@@ -104,7 +110,9 @@ if 1 :
 
 if __name__ == '__main__' :
 
-    ajout_full_stat('full_stats.csv',matches)
+    # sauve_data_victoire(cree_list_leagues(matches))
+
+    ajout_full_stat('new_full_stats.csv',matches)
     # on lit les donnees de full_stats.csv
     stats = pd.read_csv('full_stats.csv', index_col=None)
 
