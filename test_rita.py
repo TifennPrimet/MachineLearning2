@@ -4,7 +4,7 @@ from premiersArbres import *
 
 #On sépare le jeu de données
 X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')))
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # On enregistre la séparation
 #pickle.dump(X_train, open('pkl_rita/test4_X_train.pkl', 'wb'))
 #pickle.dump(X_test, open('pkl_rita/test4_X_test.pkl', 'wb'))
@@ -23,8 +23,9 @@ y_test = pickle.load(open('pkl_rita/test4_y_test.pkl', 'rb'))
 #arbre = train(X_train,y_train,19,13) # samples = 19 et depth = 13
 #pickle.dump(arbre, open('pkl_rita/test4_tree.pkl', 'wb'))
 arbre = pickle.load(open('pkl_rita/test4_tree.pkl', 'rb'))
-tree.plot_tree(arbre)
-# On calcule la précision (0.5681341719077568)
+tree.plot_tree(arbre,feature_names=X.columns,class_names=['red','blue'])
+plt.show()
+# On calcule la précision (0.5618448637316562)
 acc = getAccuracy(arbre,X_test,y_test)
 print('La precision est de ', acc*100, '% pour le test 4.')
 # La precision est de  56.81341719077568 % pour le test 4.
@@ -52,7 +53,8 @@ y_test = pickle.load(open('pkl_rita/test5_y_test.pkl', 'rb'))
 #arbre = train(X_train,y_train,7,26) # samples = 7 et depth = 26
 #pickle.dump(arbre, open('pkl_rita/test5_tree.pkl', 'wb'))
 arbre = pickle.load(open('pkl_rita/test5_tree.pkl', 'rb'))
-tree.plot_tree(arbre)
+tree.plot_tree(arbre,feature_names=X.columns,class_names=['red','blue'])
+plt.show()
 # On calcule la précision (0.5461215932914046)
 acc = getAccuracy(arbre,X_test,y_test)
 print('La precision est de ', acc*100, '% pour le test 5.')
