@@ -5,7 +5,7 @@ import numpy as np
 import seaborn as sns
 from sklearn import tree
 from sklearn.utils import shuffle
-from premiersArbres import getStat, getStat_red_blue, getStat_difference, getStat_rapport, prepare_donnee, train_test_split, getAccuracy, train, bestParamsplot
+from premiersArbres import getStat, getStat_red_blue, getStat_difference, getStat_rapport, prepare_donnee, train_test_split, getAccuracy, train, bestParamsplot, traceMatriceConf
 
 if 1==1: # Lecture des données
     champion = pd.read_csv('champions.csv', index_col=None)
@@ -108,6 +108,7 @@ if __name__ == '__main__' :
     plt.savefig('Tifenn/tree_ratio_victoire.pgf')
     print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
     plt.show()
+    traceMatriceConf(clf, X_test, y_test)
 
     # prend juste la difference de ratio de victoire
     data2, result2 = prepare_donnee(getStat_difference_ratio_victoire, ('nimportequoi', ('nimportequoi2',)))
@@ -118,3 +119,4 @@ if __name__ == '__main__' :
     plt.savefig('Tifenn/tree_ratio_victoire_par_equipe.pgf')
     print("accuracy = ", getAccuracy(clf2, X_test2, y_test2)) # 0.5293501048218029 avec 2 3
     plt.show()
+    traceMatriceConf(clf2, X_test2, y_test2)
