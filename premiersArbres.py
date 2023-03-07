@@ -8,11 +8,12 @@ from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_score
 
-if 1==2: # Lecture des données
+if 1==1: # Lecture des données
     champion = pd.read_csv('champions.csv', index_col=None)
     # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
     champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
     matches = pd.read_csv('matches.csv', index_col=None)
+
     print(champion.head())
     champion.drop("crit", axis=1, inplace=True)
     champion.drop("critperlevel", axis=1, inplace=True)
@@ -23,7 +24,7 @@ if True:
     stats = pd.read_csv('full_stats.csv', index_col=None)
 
 # Helper functions
-def getStat(color, role, stat):
+def getStat_labonne(color, role, stat, new_datas):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
     
     : param color: la couleur de l'équipe
@@ -33,7 +34,7 @@ def getStat(color, role, stat):
     : return stats: une liste contenant la statistique pour chaque champion
     """
     stats = []
-    for champ in matches[color + role]:
+    for champ in new_datas[color + role]:
         if stat in ['Fighter', 'Mage', 'Marksman', 'Support', 'Tank', 'Assassin']:
             # print(champion[champion['id'] == champ]['tags'].values[0])
             
@@ -250,6 +251,21 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     plt.show()
     return bestParams
 
+def classe(tree : tree.DecisionTreeClassifier, newdatas: pd.DataFrame):
+    """
+    Cette fonction permet d'obtenir la classe d'un nouvel échantillon à partir d'un arbre de décision et d'ajouter le resultat dans le dataframe matches
+    :param tree: l'arbre de décision
+    :param newdatas: le dataframe contenant les nouvelles données
+    :return: le dataframe matches avec la nouvelle colonne result
+    """
+    result = []
+    for i in range(len(newdatas)):
+        result.append(tree.predict([newdatas.iloc[i]]))
+    newdatas['result'] = result
+    return newdatas
+
+
+
 if __name__ == '__main__' :
 
     if 0:
@@ -257,7 +273,7 @@ if __name__ == '__main__' :
         for color in ['blue', 'red']:
             for role in ['top', 'jungle', 'mid', 'adc', 'support']:
                 for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
-                    stats[color + role + stat] = getStat(color, role, stat)
+                    stats[color + role + stat] = getStat_labonne(color, role, stat,matches)
         stats['result'] = matches['result']
         stats.to_csv('full_stats.csv', index=False)
     # # Exemple d'utilisation des fonctions
