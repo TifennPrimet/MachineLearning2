@@ -282,9 +282,9 @@ y_test = pickle.load(open('pkl_lea/complet2_y_test.pkl', 'rb'))
 # best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 14 et depth = 5
 # On fait l'arbre
 arbre_complet2 = train(X_train,y_train,10,10)
-pickle.dump(arbre, open('pkl_lea/complet2_tree.pkl', 'wb'))
+pickle.dump(arbre_complet2, open('pkl_lea/complet2_tree.pkl', 'wb'))
 arbre_complet2 = pickle.load(open('pkl_lea/complet2_tree.pkl', 'rb'))
-tree.plot_tree(arbre_complet2,feature_names=X.columns,class_names=['red','blue'])
+tree.plot_tree(arbre_complet2,feature_names=X2complet.columns,class_names=['red','blue'])
 
 
 # Test 9
@@ -308,6 +308,6 @@ y_test = pickle.load(open('pkl_lea/completchamp_y_test.pkl', 'rb'))
 # best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 14 et depth = 5
 # On fait l'arbre
 arbre_completchamp = train(X_train,y_train,10,10)
-pickle.dump(arbre, open('pkl_lea/completchamp_tree.pkl', 'wb'))
+pickle.dump(arbre_completchamp, open('pkl_lea/completchamp_tree.pkl', 'wb'))
 arbre_completchamp = pickle.load(open('pkl_lea/completchamp_tree.pkl', 'rb'))
-tree.plot_tree(arbre_completchamp,feature_names=X.columns,class_names=['red','blue'])
+tree.plot_tree(arbre_completchamp,feature_names=Xcomplet_champ.columns,class_names=['red','blue'])
