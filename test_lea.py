@@ -1,11 +1,12 @@
 from premiersArbres import *
 
+
 # Test 1
 # On regarde les stats du role 'top' sur 'hp', 'armure' et 'attack'
 # On entraine 50% du jeu de données
 
 # On sépare le jeu de données
-# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')))
+X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')))
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test1_X_train.pkl', 'wb'))
@@ -34,7 +35,7 @@ print('La precision est de ', acc*100, '% pour le test 1.')
 # Cette fois ci, on entraine 80% du jeu de données 
 
 # On sépare le jeu de données
-# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')))
+X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')))
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test2_X_train.pkl', 'wb'))
@@ -63,7 +64,7 @@ print('La precision est de ', acc*100, '% pour le test 2.')
 # On entraine 50% des données
 
 # On sépare le jeu de données
-# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
+X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test3_X_train.pkl', 'wb'))
@@ -92,7 +93,7 @@ print('La precision est de ', acc*100, '% pour le test 3.')
 # On entraine 80% des données
 
 # On sépare le jeu de données
-# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
+X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # On enregistre la séparation
 # pickle.dump(X_train, open('pkl_lea/test4_X_train.pkl', 'wb'))
@@ -115,6 +116,10 @@ tree.plot_tree(arbre,feature_names=X.columns,class_names=['red','blue'])
 # On calcule la précision (54.19287211740041)
 acc = getAccuracy(arbre,X_test,y_test)
 print('La precision est de ', acc*100, '% pour le test 4.')
+# Matrice de confusion
+traceMatriceConf(arbre, X_test, y_test)
+
+plt.show()
 
 
 # # Test 5 
@@ -204,3 +209,22 @@ print('La precision est de ', acc*100, '% pour le test 4.')
 # # On calcule la précision (52.947340843594446)
 # acc = getAccuracy(arbre,X_test,y_test)
 # print('La precision est de ', acc*100, '% pour le test 7.')
+
+
+def traceMatriceConf(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
+    """ Cette fonction permet de tracer la matrice de confusion d'un classifieur
+    
+    : param  clf: le classifieur
+    : param  X_test: les données de test
+    : param  y_test: les vrais valeurs
+    """
+    y_pred = clf.predict(X_test)
+    mat_conf = confusion_matrix(y_test,y_pred)
+    fig, ax = plt.subplots()
+    M = sns.heatmap(mat_conf/np.sum(mat_conf),annot=True,fmt='.2%',cmap='Blues')
+    plt.suptitle('Confusion Matrix')
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    ax.set_xticklabels(['red','blue'])
+    ax.set_yticklabels(['red','blue'])
+    plt.show()
