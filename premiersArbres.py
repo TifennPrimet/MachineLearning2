@@ -276,9 +276,9 @@ def classe(tree : tree.DecisionTreeClassifier, newdatas: pd.DataFrame):
     :return: le dataframe matches avec la nouvelle colonne result
     """
     result = []
-    for i in range(len(newdatas)):
-        result.append(tree.predict([newdatas.iloc[i]]))
-    newdatas['result'] = result
+    # for i in range(len(newdatas)):
+    #     result.append(tree.predict([newdatas.iloc[i]]))
+    newdatas['result'] = tree.predict(newdatas)
     return newdatas
 
 

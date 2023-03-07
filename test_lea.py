@@ -261,10 +261,13 @@ from premiersArbres import *
 # acc = getAccuracy(arbre,X_test,y_test)
 # print('La precision est de ', acc*100, '% pour le test 7.')
 
+
 # Test 8
 print('\n##### Test 8 #####')
 # On construit un arbre sur toutes les données basé sur l'idée 2
 X2complet, y2complet = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
+# Nouvelles données
+X_predire = prepare_new_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
 X_train, X_test, y_train, y_test = train_test_split(X2complet, y2complet, test_size=0.0)
 # On enregistre la séparation
 pickle.dump(X_train, open('pkl_lea/complet2_X_train.pkl', 'wb'))
@@ -285,6 +288,7 @@ arbre_complet2 = train(X_train,y_train,10,10)
 pickle.dump(arbre_complet2, open('pkl_lea/complet2_tree.pkl', 'wb'))
 arbre_complet2 = pickle.load(open('pkl_lea/complet2_tree.pkl', 'rb'))
 tree.plot_tree(arbre_complet2,feature_names=X2complet.columns,class_names=['red','blue'])
+
 
 
 # Test 9
