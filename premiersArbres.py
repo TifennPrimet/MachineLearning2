@@ -42,14 +42,6 @@ def getStat(color, role, stat):
             stats.append(champion[champion['id'] == champ][stat].values[0])
     return stats
 
-if 0:
-    stats = pd.read_csv('full_stats.csv', index_col=None)
-    for color in ['blue', 'red']:
-        for role in ['top', 'jungle', 'mid', 'adc', 'support']:
-            for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
-                stats[color + role + stat] = getStat(color, role, stat)
-    stats['result'] = matches['result']
-    stats.to_csv('full_stats.csv', index=False)
 
 def getStat(color, role, stat):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
@@ -242,6 +234,15 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     return bestParams
 
 if __name__ == '__main__' :
+
+    if 0:
+        stats = pd.read_csv('full_stats.csv', index_col=None)
+        for color in ['blue', 'red']:
+            for role in ['top', 'jungle', 'mid', 'adc', 'support']:
+                for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
+                    stats[color + role + stat] = getStat(color, role, stat)
+        stats['result'] = matches['result']
+        stats.to_csv('full_stats.csv', index=False)
     # # Exemple d'utilisation des fonctions
     # X, y = prepare_donnee(getStat_red_blue, ('top', ('hp',)))
     # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
