@@ -19,12 +19,10 @@
 %%   \import{<path to file>}{<filename>.pgf}
 %%
 %% Matplotlib used the following preamble
-%%   
 %%   \usepackage{fontspec}
-%%   \setmainfont{DejaVuSerif.ttf}[Path=\detokenize{/home/tif/.local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/}]
-%%   \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/home/tif/.local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/}]
-%%   \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/home/tif/.local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/}]
-%%   \makeatletter\@ifpackageloaded{underscore}{}{\usepackage[strings]{underscore}}\makeatother
+%%   \setmainfont{DejaVuSerif.ttf}[Path=\detokenize{C:/Users/leabu/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%   \setsansfont{DejaVuSans.ttf}[Path=\detokenize{C:/Users/leabu/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%   \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{C:/Users/leabu/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/matplotlib/mpl-data/fonts/ttf/}]
 %%
 \begingroup%
 \makeatletter%
@@ -2140,7 +2138,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=0.840980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.203}%
+\pgftext[x=0.840980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.203}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2210,7 +2208,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.147351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.192}%
+\pgftext[x=1.147351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.192}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2280,7 +2278,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.460980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.234}%
+\pgftext[x=1.460980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.234}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2350,7 +2348,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.767351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.383}%
+\pgftext[x=1.767351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.383}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2420,7 +2418,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.080980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.192}%
+\pgftext[x=2.080980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.192}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2490,7 +2488,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.390980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.259}%
+\pgftext[x=2.390980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.259}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2560,7 +2558,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.700980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.412}%
+\pgftext[x=2.700980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.412}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2630,7 +2628,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.007351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.688}%
+\pgftext[x=3.007351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.688}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2700,7 +2698,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.317351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.431}%
+\pgftext[x=3.317351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.431}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2770,7 +2768,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.627351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.258}%
+\pgftext[x=3.627351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.258}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2840,7 +2838,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.937351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.214}%
+\pgftext[x=3.937351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.214}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2910,7 +2908,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.250980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.875}%
+\pgftext[x=4.250980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.875}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -2980,7 +2978,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.557351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.653}%
+\pgftext[x=4.557351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.653}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3050,7 +3048,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.867351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.565}%
+\pgftext[x=4.867351in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.565}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3120,7 +3118,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.180980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.708}%
+\pgftext[x=5.180980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.708}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3190,7 +3188,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.490980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.641}%
+\pgftext[x=5.490980in, y=1.479465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.641}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3260,7 +3258,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=0.995980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.293}%
+\pgftext[x=0.995980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.293}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3330,7 +3328,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.615980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.345}%
+\pgftext[x=1.615980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.345}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3400,7 +3398,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.235980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.254}%
+\pgftext[x=2.235980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.254}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3470,7 +3468,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.852351in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.588}%
+\pgftext[x=2.852351in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.588}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3540,7 +3538,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.475980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.541}%
+\pgftext[x=3.475980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.541}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3610,7 +3608,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.095980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.665}%
+\pgftext[x=4.095980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.665}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3680,7 +3678,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.715980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.548}%
+\pgftext[x=4.715980in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.548}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3750,7 +3748,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.332351in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.775}%
+\pgftext[x=5.332351in, y=2.095465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.775}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3820,7 +3818,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.302351in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.319}%
+\pgftext[x=1.302351in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.319}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3890,7 +3888,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.545980in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.285}%
+\pgftext[x=2.545980in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.285}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -3960,7 +3958,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.785980in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.554}%
+\pgftext[x=3.785980in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.554}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -4030,7 +4028,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.022351in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.655}%
+\pgftext[x=5.022351in, y=2.711465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.655}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -4100,7 +4098,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.926770in, y=3.327465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.51}%
+\pgftext[x=1.926770in, y=3.327465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.51}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -4170,7 +4168,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.402351in, y=3.327465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_blueteam <= 0.465}%
+\pgftext[x=4.402351in, y=3.327465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_blueteam <= 0.465}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
@@ -4228,7 +4226,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.165980in, y=3.943465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio_victoire_redteam <= 0.487}%
+\pgftext[x=3.165980in, y=3.943465in, left, base]{\color{textcolor}\sffamily\fontsize{1.000000}{1.200000}\selectfont ratio\_victoire\_redteam <= 0.487}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
