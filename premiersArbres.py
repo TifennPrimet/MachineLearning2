@@ -22,6 +22,7 @@ if 1==1: # Lecture des données
 
 if True:
     stats = pd.read_csv('full_stats.csv', index_col=None)
+    new_stats = pd.read_csv('new_full_stats.csv', index_col=None)
 
 # Helper functions
 def getStat_labonne(color, role, stat, new_datas):
@@ -113,6 +114,22 @@ def prepare_donnee(func: callable, *args):
     X = stats[[col for col in colonnes]]
     y = stats['result']
     return X, y
+
+def prepare_new_donnee(func: callable, *args):
+    """Cette fonction permet de préparer les données pour le test
+
+    : param  func: la fonction qui permet de récupérer les données
+    : param  args: les arguments de func
+
+    : return X: les données
+    : return y: les labels
+    """
+    colonnes = []
+    for arg in args:
+        for ar in arg[1]:
+            colonnes += func(arg[0], ar)
+    X = new_stats[[col for col in colonnes]]
+    return X
 
 def cross_validation(X, y, k, critere = 'gini'):
     """Cette fonction permet de faire une cross validation
