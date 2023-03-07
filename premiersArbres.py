@@ -234,7 +234,7 @@ roles = ('top', 'jungle', 'mid', 'adc', 'support')
 # # print(params)
 
 # On va sauvegarder le meilleur arbre et le dataset pour ne pas les générer à chaque fois
-X, y = prepare_donnee(getStat_red_blue, *[(pos, stats_names) for pos in roles])
+X, y = prepare_donnee(getStat_rapport, *[(pos, stats_names) for pos in roles])
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 pickle.dump(X_train, open('full_X_train_difference.pkl', 'wb'))
 pickle.dump(X_test, open('full_X_test_difference.pkl', 'wb'))
@@ -250,18 +250,18 @@ clf = train(X_train, y_train, 2, 3) # prends ~ 3min
 pickle.dump(clf, open('full_tree_difference.pkl', 'wb'))# 2 3 <- mettre à jour si on change les paramètres
 
 clf = pickle.load(open('full_tree_difference.pkl', 'rb'))
-tree.plot_tree(clf)
+tree.plot_tree(clf, feature_names=X.columns, class_names=['red', 'blue'])
 print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
 plt.show()
 
 params = bestParamsplot(X_train, X_test, y_train, y_test, range(1, 50, 2), range(1, 50, 2))
 print(params)
-
+clf = train(X_train, y_train, 11, 29) # prends ~ 3min
 # print(matches['bluetop'])
 # clf = tree.DecisionTreeClassifier(min_samples_split=100, max_depth=5)
 # clf = clf.fit([[i,j] for i, j in zip(getStats(matches['bluetop'],'hp'), getStats(matches['redtop'],'hp'))], matches['result'])
-# tree.plot_tree(clf)
-# plt.show()
+tree.plot_tree(clf)
+plt.show()
 # entrainer un arbre a partir de getstat_difference 
 # train_test_split(getStat_difference, ('top', ('attack',)), test_size=0.5)
 # clf = tree.DecisionTreeClassifier(min_samples_split=100, max_depth=5)
