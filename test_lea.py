@@ -101,6 +101,11 @@ X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jung
 # pickle.dump(y_train, open('pkl_lea/test4_y_train.pkl', 'wb'))
 # pickle.dump(y_test, open('pkl_lea/test4_y_test.pkl', 'wb'))
 
+scores = cross_validation(X, y, 10,score=getAccuracy)
+print('La liste des scores est donnée par ', scores)
+print('La moyenne des scores est de ', np.mean(scores))
+print('L\'écart type des scores est de ', np.std(scores))
+
 X_train = pickle.load(open('pkl_lea/test4_X_train.pkl', 'rb'))
 X_test = pickle.load(open('pkl_lea/test4_X_test.pkl', 'rb'))
 y_train = pickle.load(open('pkl_lea/test4_y_train.pkl', 'rb'))

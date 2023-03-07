@@ -3,9 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from sklearn import tree
+from sklearn import tree, svm
 from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import cross_val_score
 
 if 1==2: # Lecture des données
     champion = pd.read_csv('champions.csv', index_col=None)
@@ -120,6 +121,22 @@ def prepare_donnee(func: callable, *args):
     y = stats['result']
     return X, y
 
+def cross_validation(X,y,k=5,score = 'accuracy'):
+    """Cette fonction permet de faire une cross validation
+
+    : param  X: les données
+    : param  y: les labels
+    : param  k: le nombre de folds
+    : param  score: la métrique utilisée pour la cross validation
+
+    : return scores: les scores de la cross validation
+    """
+    # Créer un classificateur
+    clf = svm.SVC(C=1)
+    # Faire une cross validation
+    scores = cross_val_score(clf, X, y, cv=k, scoring=score)
+    return scores
+
 def train_test_split(X, y, test_size: float = 0.2):
     """Cette fonction permet de diviser les données en un ensemble d'entraînement et un ensemble de test
 
@@ -222,6 +239,7 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     plt.ylabel('min_samples_split')
     plt.show()
     return bestParams
+
 if __name__ == '__main__' :
     # # Exemple d'utilisation des fonctions
     # X, y = prepare_donnee(getStat_red_blue, ('top', ('hp',)))
