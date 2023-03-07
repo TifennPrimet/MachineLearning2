@@ -100,10 +100,12 @@ def getStat_difference_ratio_victoire(nimportequoi, nimportequoi2):
 
 
 if 1 :
+    stats_names = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
+    
     new_datas = pd.read_csv('matches_topredict.csv', index_col=None)
     for color in ['blue', 'red']:
         for role in ['top', 'jungle', 'mid', 'adc', 'support']:
-            for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
+            for stat in stats_names:
                 new_datas[color + role + stat] = getStat_labonne(color, role, stat, new_datas)
     new_datas.to_csv('new_full_stats.csv', index=False)
 
