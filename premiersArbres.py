@@ -121,20 +121,37 @@ def prepare_donnee(func: callable, *args):
     y = stats['result']
     return X, y
 
-def cross_validation(X,y,k=5,score = 'accuracy'):
+def cross_validation(X, y, k):
     """Cette fonction permet de faire une cross validation
 
     : param  X: les données
     : param  y: les labels
     : param  k: le nombre de folds
-    : param  score: la métrique utilisée pour la cross validation
 
     : return scores: les scores de la cross validation
     """
-    # Créer un classificateur
-    clf = svm.SVC(C=1)
-    # Faire une cross validation
-    scores = cross_val_score(clf, X, y, cv=k, scoring=score)
+    # On fait une copie des données pour ne pas modifier les données d'origine
+    X = X.copy()
+    y = y.copy()
+    # On ajoute les résultats aux données pour tout spliter d'un coup
+    X.insert(X.shape[1],'resultat',y)
+    # On split les données en k folds
+    X_split = np.array_split(X,k)
+    scores = [] # Initialisation des scores de précision
+    for i in range(k):
+        # On récupère les données à prédire et celles à entraîner
+        X_topred = X_split[i].copy()
+        y_topred = X_topred['resultat']
+        X_totrain = pd.concat(X_split[:i] + X_split[i+1:])
+        y_totrain = X_totrain['resultat']
+        # On supprime les résultats des données à entraîner pour ne pas les utiliser dans l'entraînement
+        X_topred.drop('resultat', axis=1, inplace=True)
+        X_totrain.drop('resultat', axis=1, inplace=True)
+        # On entraîne l'arbre de décision
+        arbre = train(X_totrain, y_totrain)
+        # On récupère la précision 
+        acc = getAccuracy(arbre, X_topred, y_topred)
+        scores.append(acc)
     return scores
 
 def train_test_split(X, y, test_size: float = 0.2):
