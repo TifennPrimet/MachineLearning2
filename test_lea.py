@@ -267,7 +267,7 @@ print('\n##### Test 8 #####')
 # On construit un arbre sur toutes les données basé sur l'idée 2
 X2complet, y2complet = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
 # Nouvelles données
-X_predire = prepare_new_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
+X_predire2 = prepare_new_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
 X_train, X_test, y_train, y_test = train_test_split(X2complet, y2complet, test_size=0.0)
 # On enregistre la séparation
 pickle.dump(X_train, open('pkl_lea/complet2_X_train.pkl', 'wb'))
@@ -289,7 +289,8 @@ pickle.dump(arbre_complet2, open('pkl_lea/complet2_tree.pkl', 'wb'))
 arbre_complet2 = pickle.load(open('pkl_lea/complet2_tree.pkl', 'rb'))
 tree.plot_tree(arbre_complet2,feature_names=X2complet.columns,class_names=['red','blue'])
 
-
+prediction2 = classe(arbre_complet2,X_predire2.copy())['result']
+print('La prédiction est', prediction2)
 
 # Test 9
 print('\n##### Test 9 #####')
@@ -315,3 +316,9 @@ arbre_completchamp = train(X_train,y_train,10,10)
 pickle.dump(arbre_completchamp, open('pkl_lea/completchamp_tree.pkl', 'wb'))
 arbre_completchamp = pickle.load(open('pkl_lea/completchamp_tree.pkl', 'rb'))
 tree.plot_tree(arbre_completchamp,feature_names=Xcomplet_champ.columns,class_names=['red','blue'])
+
+# Nouvelles données
+X_predire_champ = prepare_new_donnee(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)))
+
+prediction_champ = classe(arbre_completchamp,X_predire_champ.copy())['result']
+print('La prédiction est', prediction_champ)
