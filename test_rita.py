@@ -121,3 +121,5 @@ print('La precision avec entropy est de ', acc_entropy*100, '% pour le test 6.')
 #matrice de confusion:
 traceMatriceConf(arbre_gini,X_test,y_test)
 traceMatriceConf(arbre_entropy,X_test,y_test)
+
+
