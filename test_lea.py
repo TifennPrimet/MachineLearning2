@@ -110,56 +110,55 @@ print('L\'écart type des scores est de ', np.std(scores2))
 # print('La precision est de ', acc*100, '% pour le test 3.')
 
 # # Test 4
-# print('\n##### Test 4 #####')
-# # On regarde les stats de l'idée 2
+print('\n##### Test 4 #####')
+# On regarde les stats de l'idée 2
 # # On entraine 80% des données
 
 # # On sépare le jeu de données
-# X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
-# # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')), ('support',('hp',)))
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # # On enregistre la séparation
-# # pickle.dump(X_train, open('pkl_lea/test4_X_train.pkl', 'wb'))
-# # pickle.dump(X_test, open('pkl_lea/test4_X_test.pkl', 'wb'))
+#pickle.dump(X_train, open('pkl_lea/test4_X_train.pkl', 'wb'))
+#pickle.dump(X_test, open('pkl_lea/test4_X_test.pkl', 'wb'))
 # # pickle.dump(y_train, open('pkl_lea/test4_y_train.pkl', 'wb'))
 # # pickle.dump(y_test, open('pkl_lea/test4_y_test.pkl', 'wb'))
 
 # # Validation du modèle
-# scores = cross_validation(X, y, 10)
-# print('La liste des scores est donnée par ', scores)
-# print('La moyenne des scores est de ', np.mean(scores))
-# print('L\'écart type des scores est de ', np.std(scores))
+scores = cross_validation(X, y, 10)
+print('La liste des scores est donnée par ', scores)
+print('La moyenne des scores est de ', np.mean(scores))
+print('L\'écart type des scores est de ', np.std(scores))
 
-# X_train = pickle.load(open('pkl_lea/test4_X_train.pkl', 'rb'))
-# X_test = pickle.load(open('pkl_lea/test4_X_test.pkl', 'rb'))
-# y_train = pickle.load(open('pkl_lea/test4_y_train.pkl', 'rb'))
-# y_test = pickle.load(open('pkl_lea/test4_y_test.pkl', 'rb'))
+X_train = pickle.load(open('pkl_lea/test4_X_train.pkl', 'rb'))
+X_test = pickle.load(open('pkl_lea/test4_X_test.pkl', 'rb'))
+y_train = pickle.load(open('pkl_lea/test4_y_train.pkl', 'rb'))
+y_test = pickle.load(open('pkl_lea/test4_y_test.pkl', 'rb'))
 
 # # On calcule les meilleurs paramètres
-# # best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 2 et depth = 14
+#best = bestParamsplot(X_train, X_test, y_train, y_test, range(2, 30), range(2, 30)) # donne samples = 2 et depth = 14
 # # On fait l'arbre
-# # arbre = train(X_train,y_train,2,14)
-# # pickle.dump(arbre, open('pkl_lea/test4_tree.pkl', 'wb'))
-# arbre = pickle.load(open('pkl_lea/test4_tree.pkl', 'rb'))
-# fig, ax = plt.subplots()
-# tree.plot_tree(arbre,feature_names=X.columns,class_names=['red','blue'])
-# ax.set_title('Arbre de décision pour le test 4')
-# plt.savefig('tree.pgf')
+arbre = train(X_train,y_train,2,14)
+pickle.dump(arbre, open('pkl_lea/test4_tree.pkl', 'wb'))
+arbre = pickle.load(open('pkl_lea/test4_tree.pkl', 'rb'))
+fig, ax = plt.subplots()
+tree.plot_tree(arbre,feature_names=X.columns,class_names=['red','blue'])
+ax.set_title('Arbre de décision pour le test 4')
+plt.savefig('tree.pgf')
 # # On calcule la précision (54.19287211740041)
-# acc = getAccuracy(arbre,X_test,y_test)
-# print('La precision est de ', acc*100, '% pour le test 4.')
+acc = getAccuracy(arbre,X_test,y_test)
+print('La precision est de ', acc*100, '% pour le test 4.')
 # # Matrice de confusion
-# traceMatriceConf(arbre, X_test, y_test)
-
-# plt.show()
+traceMatriceConf(arbre, X_test, y_test)
+plt.show()
 
 
 # # Test 5 
-print('\n##### Test 5 #####')
+#print('\n##### Test 5 #####')
 # # On regarde les tags dans chaque role
 # # On entraine 50% des donnees
 
 # # On sépare le jeu de données
-XC, yC = prepare_donnee(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)))
+#XC, yC = prepare_donnee(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle', ('Fighter',)), ('mid',('Mage',)),('adc',('Marksman',)), ('support',('Support',)))
 # # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 # # On enregistre la séparation
 # # pickle.dump(X_train, open('pkl_lea/test5_X_train.pkl', 'wb'))
@@ -167,10 +166,10 @@ XC, yC = prepare_donnee(getStat_red_blue, ('top', ('Tank', 'Fighter')), ('jungle
 # # pickle.dump(y_train, open('pkl_lea/test5_y_train.pkl', 'wb'))
 # # pickle.dump(y_test, open('pkl_lea/test5_y_test.pkl', 'wb'))
 
-scoresC = cross_validation(XC, yC, 10)
-print('La liste des scores est donnée par ', scoresC)
-print('La moyenne des scores est de ', np.mean(scoresC))
-print('L\'écart type des scores est de ', np.std(scoresC))
+#scoresC = cross_validation(XC, yC, 10)
+#print('La liste des scores est donnée par ', scoresC)
+#print('La moyenne des scores est de ', np.mean(scoresC))
+#print('L\'écart type des scores est de ', np.std(scoresC))
 
 # X_train = pickle.load(open('pkl_lea/test5_X_train.pkl', 'rb'))
 # X_test = pickle.load(open('pkl_lea/test5_X_test.pkl', 'rb'))
