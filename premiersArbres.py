@@ -5,6 +5,7 @@ import numpy as np
 import seaborn as sns
 from sklearn import tree
 from sklearn.utils import shuffle
+from sklearn.metrics import confusion_matrix
 
 if 1==2: # Lecture des données
     champion = pd.read_csv('champions.csv', index_col=None)
@@ -156,6 +157,24 @@ def getAccuracy(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
             accuracy += 1
     accuracy /= len(y_pred)
     return accuracy
+
+def traceMatriceConf(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
+    """ Cette fonction permet de tracer la matrice de confusion d'un classifieur
+    
+    : param  clf: le classifieur
+    : param  X_test: les données de test
+    : param  y_test: les vrais valeurs
+    """
+    y_pred = clf.predict(X_test)
+    mat_conf = confusion_matrix(y_test,y_pred)
+    fig, ax = plt.subplots()
+    M = sns.heatmap(mat_conf/np.sum(mat_conf),annot=True,fmt='.2%',cmap='Blues')
+    plt.suptitle('Confusion Matrix')
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    ax.set_xticklabels(['red','blue'])
+    ax.set_yticklabels(['red','blue'])
+    plt.show()
 
 def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int=None):
     """Cette fonction permet d'entraîner un classifieur

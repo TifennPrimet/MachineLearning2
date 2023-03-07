@@ -209,22 +209,3 @@ plt.show()
 # # On calcule la précision (52.947340843594446)
 # acc = getAccuracy(arbre,X_test,y_test)
 # print('La precision est de ', acc*100, '% pour le test 7.')
-
-
-def traceMatriceConf(clf: tree.DecisionTreeClassifier, X_test: list, y_test: list):
-    """ Cette fonction permet de tracer la matrice de confusion d'un classifieur
-    
-    : param  clf: le classifieur
-    : param  X_test: les données de test
-    : param  y_test: les vrais valeurs
-    """
-    y_pred = clf.predict(X_test)
-    mat_conf = confusion_matrix(y_test,y_pred)
-    fig, ax = plt.subplots()
-    M = sns.heatmap(mat_conf/np.sum(mat_conf),annot=True,fmt='.2%',cmap='Blues')
-    plt.suptitle('Confusion Matrix')
-    plt.xlabel('Predicted Label')
-    plt.ylabel('True Label')
-    ax.set_xticklabels(['red','blue'])
-    ax.set_yticklabels(['red','blue'])
-    plt.show()
