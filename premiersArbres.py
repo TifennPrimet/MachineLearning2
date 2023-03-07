@@ -114,7 +114,7 @@ def prepare_donnee(func: callable, *args):
     y = stats['result']
     return X, y
 
-def cross_validation(X, y, k):
+def cross_validation(X, y, k, critere = 'gini'):
     """Cette fonction permet de faire une cross validation
 
     : param  X: les données
@@ -141,7 +141,7 @@ def cross_validation(X, y, k):
         X_topred.drop('resultat', axis=1, inplace=True)
         X_totrain.drop('resultat', axis=1, inplace=True)
         # On entraîne l'arbre de décision
-        arbre = train(X_totrain, y_totrain)
+        arbre = train(X_totrain, y_totrain, crit = critere)
         # On récupère la précision 
         acc = getAccuracy(arbre, X_topred, y_topred)
         scores.append(acc)
