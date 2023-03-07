@@ -5,35 +5,35 @@ if True: # Importation des modules
     import seaborn as sns
 
 affichages = { # Modifier les valeurs suivantes pour afficher ou non les plots et les print
-    'champion': False, # Nécessaire pour les quatre suivants
+    'champion': True, # Nécessaire pour les quatre suivants
     'champion_plot': True,
     'champion_attaque_magie': True,
     'champion_moyenne_ecart_type': True,
     'champion_describe': True,
-    'tags': False,
-    'tags_roles': False,
-    'tags_stats': False, # Nécessaire pour les trois suivants
+    'tags': True,
+    'tags_roles': True,
+    'tags_stats': True, # Nécessaire pour les trois suivants
     'tags_stats_moy': True,
     'tags_stats_std': True,
     'tags_stats_rel_std': True,
-    'tags_heatmaps': False, # Nécessaire pour les trois suivants
+    'tags_heatmaps': True, # Nécessaire pour les trois suivants
     'tags_heatmap_champ': True,
     'tags_heatmap_match': True,
     'tags_heatmap_match_rel': True,
-    'champions_match': False, # Nécessaire pour les six suivants
+    'champions_match': True, # Nécessaire pour les six suivants
     'champions_match_non_used': True,
     'champions_match_victoire': True,
     'champions_match_defaite': True,
     'champions_match_popularite': True,
     'champions_match_taux_victoire': True,
     'champions_match_taux_defaite': True,
-    'champions_match_par_roles': False, # Nécessaire pour les cinq suivants
+    'champions_match_par_roles': True, # Nécessaire pour les cinq suivants
     'champions_match_par_roles_top': True, # rôle = top
     'champions_match_par_roles_jungle': True, # rôle = jungle
     'champions_match_par_roles_mid': True, # rôle = mid
     'champions_match_par_roles_adc': True, # rôle = adc
     'champions_match_par_roles_support': True, # rôle = support
-    'compos_match': False, # Nécessaire pour les trois suivants
+    'compos_match': True, # Nécessaire pour les trois suivants
     'compos_match_popularite': True,
     'compos_match_taux_victoire': True,
     'compos_match_taux_defaite': True,
