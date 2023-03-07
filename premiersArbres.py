@@ -222,6 +222,7 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     plt.ylabel('min_samples_split')
     plt.show()
     return bestParams
+
 if __name__ == '__main__' :
     # # Exemple d'utilisation des fonctions
     # X, y = prepare_donnee(getStat_red_blue, ('top', ('hp',)))
