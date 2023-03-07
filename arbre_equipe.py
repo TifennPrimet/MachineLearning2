@@ -143,7 +143,9 @@ if __name__ == '__main__' :
     # print('La moyenne des scores est de ', np.mean(scores))
     # print('L\'écart type des scores est de ', np.std(scores))
 
-    # print(classe(clf, new_datas) )# classe les nouvelles donnees
+    X = prepare_new_donnee(getStat_ratio_victoire, ('blue', ('nimportequoi',)), ('red', ('nimportequoi',)))
+    # print(X)
+    print(classe(clf, X) )# classe les nouvelles donnees
     # print("accuracy = ", getAccuracy(clf, X_test, y_test)) # 0.5293501048218029 avec 2 3
     plt.show()
     # traceMatriceConf(clf, X_test, y_test)
