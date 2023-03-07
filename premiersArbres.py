@@ -198,7 +198,7 @@ def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int
     """
     clf = tree.DecisionTreeClassifier(min_samples_split=min_samples_split, max_depth=max_depth, criterion=crit)
     clf = clf.fit(X_train, y_train)
-    return clf  #
+    return clf  # criterion='gini'est par défaut (gini ou entropy)
 
 def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[1, 2, 5, 10, 20, 50, 100, 1000], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
     """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et de tracer la précision en fonction de ces paramètres
