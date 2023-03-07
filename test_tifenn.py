@@ -131,9 +131,12 @@ if __name__ == '__main__' :
     prediction1 = classe(clf,X_predire_1.copy())['result']
     print('La prédiction 1 est', prediction1)
 
+    # On sauvegarde la prediction dans un fichier csv
+    prediction1.to_csv('prediction1.csv', index=False)
+
     fig, ax = plt.subplots()
     tree.plot_tree(clf, feature_names = data.columns, class_names=['red', 'blue'])
-    plt.savefig('Tifenn/tree_ratio_victoire.pgf') # enregistrement .pgf pour pouvoir zoomer
+    # plt.savefig('Tifenn/tree_ratio_victoire.pgf') # enregistrement .pgf pour pouvoir zoomer
 
     # scores = cross_validation(data, result, 10)
     # print('La liste des scores est donnée par ', scores)
@@ -156,9 +159,12 @@ if __name__ == '__main__' :
     prediction2 = classe(clf2,X_predire_2.copy())['result']
     print('La prédiction 2 est', prediction2)
 
+    # On sauvegarde la prediction dans un fichier csv
+    prediction2.to_csv('prediction2.csv', index=False)
+
     fig, ax = plt.subplots()
     tree.plot_tree(clf2, feature_names = data.columns, class_names=['red', 'blue'])
-    plt.savefig('Tifenn/tree_ratio_victoire_par_equipe.pgf')
+    # plt.savefig('Tifenn/tree_ratio_victoire_par_equipe.pgf')
     
     # scores = cross_validation(data, result, 10)
     # print('La liste des scores est donnée par ', scores)
