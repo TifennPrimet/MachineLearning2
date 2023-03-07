@@ -4,7 +4,7 @@ from premiersArbres import *
 
 #On sépare le jeu de données
 X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jungle', ('attack',)), ('mid',('magic',)),('adc',('attack','attackspeed')))
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # On enregistre la séparation
 #pickle.dump(X_train, open('pkl_rita/test4_X_train.pkl', 'wb'))
 #pickle.dump(X_test, open('pkl_rita/test4_X_test.pkl', 'wb'))
