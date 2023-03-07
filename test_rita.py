@@ -93,6 +93,19 @@ X, y = prepare_donnee(getStat_red_blue, ('top', ('hp','armor','attack')), ('jung
 #pickle.dump(y_train, open('pkl_rita/test6_y_train.pkl', 'wb'))
 #pickle.dump(y_test, open('pkl_rita/test6_y_test.pkl', 'wb'))
 
+# Validation du modèle
+#résultats pour gini :
+scores = cross_validation(X, y, 10, 'gini')
+print('La liste des scores du critère gini est donnée par ', scores)
+print('La moyenne des scores du critère gini est de ', np.mean(scores))
+print('L\'écart type des scores du critère gini est de ', np.std(scores))
+
+#résultats pour entropy :
+scores = cross_validation(X, y, 10, 'entropy')
+print('La liste des scores du critère entropie est donnée par ', scores)
+print('La moyenne des scores du critère entropie est de ', np.mean(scores))
+print('L\'écart type des scores du critère entropie est de ', np.std(scores))
+
 X_train = pickle.load(open('pkl_rita/test6_X_train.pkl', 'rb'))
 X_test = pickle.load(open('pkl_rita/test6_X_test.pkl', 'rb'))
 y_train = pickle.load(open('pkl_rita/test6_y_train.pkl', 'rb'))
