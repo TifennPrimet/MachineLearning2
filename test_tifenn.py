@@ -101,7 +101,7 @@ if __name__ == '__main__' :
 
     # prend juste les ratio de victoire et la difference de ratio de victoire
     data, result = prepare_donnee(getStat_ratio_victoire, ('blue', ('nimportequoi',)), ('red', ('nimportequoi',)))
-    X_train, X_test, y_train, y_test = train_test_split(data, result, test_size=0.2)
+    X_train, X_test, y_train, y_test = train_test_split(data, result, test_size=0)
     clf = train(X_train, y_train, 2, 5) # prends ~ 3min
     fig, ax = plt.subplots()
     tree.plot_tree(clf, feature_names = data.columns, class_names=['red', 'blue'])
@@ -110,9 +110,11 @@ if __name__ == '__main__' :
     plt.show()
     traceMatriceConf(clf, X_test, y_test)
     params = bestParamsplot(X_train, X_test, y_train, y_test, range(1, 50, 2), range(1, 50, 2))
+
+
     # prend juste la difference de ratio de victoire
     data2, result2 = prepare_donnee(getStat_difference_ratio_victoire, ('nimportequoi', ('nimportequoi2',)))
-    X_train2, X_test2, y_train2, y_test2 = train_test_split(data2, result2, test_size=0.2)
+    X_train2, X_test2, y_train2, y_test2 = train_test_split(data2, result2, test_size=0)
     clf2 = train(X_train2, y_train2, 2, 3) # prends ~ 3min
     fig, ax = plt.subplots()
     tree.plot_tree(clf2, feature_names = data.columns, class_names=['red', 'blue'])
