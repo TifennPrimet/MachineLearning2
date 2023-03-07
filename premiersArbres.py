@@ -193,19 +193,20 @@ def traceMatriceConf(clf: tree.DecisionTreeClassifier, X_test: list, y_test: lis
     ax.set_yticklabels(['red','blue'])
     plt.show()
 
-def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int=None):
+def train(X_train: list, y_train: list, min_samples_split: int=2, max_depth: int=None, crit: str='gini'):
     """Cette fonction permet d'entraîner un classifieur
 
     : param  X_train: les données d'entraînement
     : param  y_train: les labels d'entraînement
     : param  min_samples_split: le nombre minimum d'échantillons requis pour diviser un noeud
     : param  max_depth: la profondeur maximale de l'arbre
+    : param crit: la fonction de mesure de la qualité de la séparation (gini ou entropy)
 
     : return clf: le classifieur
     """
-    clf = tree.DecisionTreeClassifier(min_samples_split=min_samples_split, max_depth=max_depth)
+    clf = tree.DecisionTreeClassifier(min_samples_split=min_samples_split, max_depth=max_depth, criterion=crit)
     clf = clf.fit(X_train, y_train)
-    return clf
+    return clf  #
 
 def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min_samples_split: list=[1, 2, 5, 10, 20, 50, 100, 1000], max_depth: list=[None, 2, 5, 10, 20, 50, 100]):
     """Cette fonction permet de trouver les meilleurs paramètres pour un classifieur et de tracer la précision en fonction de ces paramètres
