@@ -99,7 +99,7 @@ def getStat_difference_ratio_victoire(nimportequoi, nimportequoi2):
     return ["diff_ratio_victoire"]
 
 
-if 1 :
+if 1==2 :
     stats_names = ('attack', 'defense', 'magic', 'difficulty', 'Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman', 'hp', 'hpperlevel', 'mp', 'mpperlevel', 'movespeed', 'armor', 'armorperlevel', 'spellblock', 'spellblockperlevel', 'attackrange', 'hpregen', 'hpregenperlevel', 'mpregen', 'mpregenperlevel', 'attackdamage', 'attackdamageperlevel', 'attackspeedperlevel', 'attackspeed')
     
     new_datas = pd.read_csv('matches_topredict.csv', index_col=None)
@@ -109,18 +109,17 @@ if 1 :
                 new_datas[color + role + stat] = getStat_labonne(color, role, stat, new_datas)
     new_datas.to_csv('new_full_stats.csv', index=False)
 
-
 if __name__ == '__main__' :
 
     # sauve_data_victoire(cree_list_leagues(matches))
 
-    ajout_full_stat('new_full_stats.csv',matches)
+    # ajout_full_stat('new_full_stats.csv',matches)
     # on lit les donnees de full_stats.csv
     # stats = pd.read_csv('full_stats.csv', index_col=None)
 
     # new_datas = pd.read_csv('new_full_stats.csv', index_col=None)
     # print(new_datas.head())
-    # # prend juste les ratio de victoire et la difference de ratio de victoire
+    # prend juste les ratio de victoire et la difference de ratio de victoire
     # data, result = prepare_donnee(getStat_ratio_victoire, ('blue', ('nimportequoi',)), ('red', ('nimportequoi',)))
     # X_train, X_test, y_train, y_test = train_test_split(data, result, test_size=0)
     # clf = train(X_train, y_train, 2, 5) # entrine l'arbre de decision
@@ -149,3 +148,4 @@ if __name__ == '__main__' :
     # plt.show()
     # traceMatriceConf(clf2, X_test2, y_test2)
     # params2 = bestParamsplot(X_train2, X_test2, y_train2, y_test2, range(1, 50, 2), range(1, 50, 2))
+    pass
