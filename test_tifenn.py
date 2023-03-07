@@ -91,11 +91,12 @@ def getStat_difference_ratio_victoire(nimportequoi, nimportequoi2):
     """
     On renvoie la liste des colonnes qui nous interessent pour la difference de ratio de victoire
     """
-    return ['diff_ratio_victoire']
+    return ["diff_ratio_victoire"]
 
 if __name__ == '__main__' :
     # ajout_full_stat('full_stats_tifenn.csv',matches)
     # on lit les donnees de full_stats.csv
+    global stats
     stats = pd.read_csv('full_stats_tifenn.csv', index_col=None)
     print(stats.head())
     data, result = prepare_donnee(getStat_ratio_victoire, ('blue', ('nimportequoi',)), ('red', ('nimportequoi',)))

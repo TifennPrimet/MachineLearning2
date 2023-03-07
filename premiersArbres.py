@@ -8,19 +8,6 @@ from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_score
 
-if 1==2: # Lecture des données
-    champion = pd.read_csv('champions.csv', index_col=None)
-    # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
-    champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
-    matches = pd.read_csv('matches.csv', index_col=None)
-    print(champion.head())
-    champion.drop("crit", axis=1, inplace=True)
-    champion.drop("critperlevel", axis=1, inplace=True)
-    print(champion.head())
-    print( " I got the datas ! ")
-
-if True:
-    stats = pd.read_csv('full_stats.csv', index_col=None)
 
 # Helper functions
 def getStat(color, role, stat):
@@ -42,14 +29,6 @@ def getStat(color, role, stat):
             stats.append(champion[champion['id'] == champ][stat].values[0])
     return stats
 
-if 0:
-    stats = pd.read_csv('full_stats.csv', index_col=None)
-    for color in ['blue', 'red']:
-        for role in ['top', 'jungle', 'mid', 'adc', 'support']:
-            for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
-                stats[color + role + stat] = getStat(color, role, stat)
-    stats['result'] = matches['result']
-    stats.to_csv('full_stats.csv', index=False)
 
 def getStat(color, role, stat):
     """Cette fonction permet de récupérer les statistiques du champion qui a joué le rôle donné pour l'équipe donnée
@@ -242,6 +221,28 @@ def bestParamsplot(X_train: list, X_test: list, y_train: list, y_test: list, min
     return bestParams
 
 if __name__ == '__main__' :
+    if 1==2: # Lecture des données
+        champion = pd.read_csv('champions.csv', index_col=None)
+        # Les tags sont encore sous forme de chaîne de caractères, nous devons les convertir en listes
+        champion['tags'] = champion['tags'].apply(lambda x: x.strip('[]').split(', '))
+        matches = pd.read_csv('matches.csv', index_col=None)
+        print(champion.head())
+        champion.drop("crit", axis=1, inplace=True)
+        champion.drop("critperlevel", axis=1, inplace=True)
+        print(champion.head())
+        print( " I got the datas ! ")
+
+    if 1:
+        stats = pd.read_csv('full_stats.csv', index_col=None)
+
+    if 0:
+        stats = pd.read_csv('full_stats.csv', index_col=None)
+        for color in ['blue', 'red']:
+            for role in ['top', 'jungle', 'mid', 'adc', 'support']:
+                for stat in ['Fighter', 'Tank', 'Mage', 'Assassin', 'Support', 'Marksman']:
+                    stats[color + role + stat] = getStat(color, role, stat)
+        stats['result'] = matches['result']
+        stats.to_csv('full_stats.csv', index=False)
     # # Exemple d'utilisation des fonctions
     # X, y = prepare_donnee(getStat_red_blue, ('top', ('hp',)))
     # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
